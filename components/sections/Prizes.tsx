@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Trophy, Sparkles, Star, Crown, Award } from "lucide-react";
+import Image from "next/image";
+import { Sparkles, Star, Crown, Award } from "lucide-react";
 import { prizes } from "@/lib/content";
 import SectionShell from "@/components/ui/SectionShell";
 import { GradientText } from "@/components/ui/TextEffects";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import TiltCard from "@/components/ui/TiltCard";
 import ParticleField from "@/components/ui/ParticleField";
-import IphoneMock from "@/components/ui/IphoneMock";
 import { Reveal } from "@/components/ui/Reveal";
 
 const cardIcons = [Sparkles, Star];
@@ -49,14 +49,14 @@ export default function Prizes() {
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                   className="relative"
                 >
-                  <IphoneMock className="w-36 drop-shadow-[0_24px_50px_rgba(0,0,0,0.5)]">
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-ember/40 via-violet-700 to-ink-900">
-                      <Trophy className="h-14 w-14 text-ember drop-shadow-[0_0_22px_rgba(255,122,26,0.7)]" />
-                      <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/85">
-                        iPhone 15
-                      </span>
-                    </div>
-                  </IphoneMock>
+                  <Image
+                    src="/iphone-15-green.png"
+                    alt="iPhone 15 in green — the grand prize"
+                    width={360}
+                    height={720}
+                    priority
+                    className="h-auto w-40 drop-shadow-[0_28px_60px_rgba(0,0,0,0.55)] sm:w-44"
+                  />
                 </motion.div>
               </div>
 

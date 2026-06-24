@@ -6,6 +6,8 @@ import SmoothScroll from "@/components/providers/SmoothScroll";
 import CustomCursor from "@/components/cursor/CustomCursor";
 import AuroraBackground from "@/components/ui/AuroraBackground";
 import SpaceBackground from "@/components/ui/SpaceBackground";
+import PlanetBackground from "@/components/three/PlanetBackground";
+import IntroLoader from "@/components/ui/IntroLoader";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Navbar from "@/components/sections/Navbar";
 import Dock from "@/components/sections/Dock";
@@ -86,7 +88,9 @@ export default function RootLayout({
       <body className="min-h-screen bg-canvas text-foreground antialiased">
         <AuroraBackground />
         <SpaceBackground />
+        <PlanetBackground />
         <div className="noise-overlay" />
+        <IntroLoader />
         <ScrollProgress />
         <CustomCursor />
         <SmoothScroll>

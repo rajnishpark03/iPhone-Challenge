@@ -10,6 +10,7 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { scrollToId } from "@/components/providers/SmoothScroll";
 import MagicButton from "@/components/ui/MagicButton";
+import HeroHorizon from "@/components/ui/HeroHorizon";
 import { GradientText, ShinyText, Eyebrow } from "@/components/ui/TextEffects";
 import { cn } from "@/lib/utils";
 
@@ -93,6 +94,9 @@ export default function Hero() {
       <div className="hero-parallax-slow pointer-events-none absolute inset-0 z-0">
         <HeroScene />
       </div>
+
+      {/* cinematic rock horizon anchoring the first screen */}
+      <HeroHorizon />
 
       {/* Floating glass badges */}
       <motion.div
