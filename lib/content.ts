@@ -5,7 +5,7 @@
  */
 
 export const meta = {
-  edition: "2024 EDITION",
+  edition: "2026 EDITION",
   brand: "tutedude",
   challengeTag: "TuteDude iPhone Challenge",
   title: ["CREATOR'S", "HANDBOOK"],
