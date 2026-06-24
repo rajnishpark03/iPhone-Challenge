@@ -141,7 +141,7 @@ export default function Hero() {
         >
           <Image
             src="/tutedude-logo.svg"
-            alt="TuteDude"
+            alt="Tutedude"
             width={38}
             height={38}
             className="drop-shadow-[0_0_12px_rgba(139,110,245,0.7)]"

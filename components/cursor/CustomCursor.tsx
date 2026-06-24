@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { lerp } from "@/lib/utils";
 
 /**
- * Image cursor — the TuteDude "hand holding the challenge phone" graphic
+ * Image cursor — the Tutedude "hand holding the challenge phone" graphic
  * follows the pointer, with a small precise dot at the exact click point.
  *
  * The cursor elements are ALWAYS rendered (never gated behind state) so their

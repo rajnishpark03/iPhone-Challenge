@@ -128,7 +128,7 @@ export default function Closing() {
           <div className="flex items-center gap-2">
             <Image
               src="/tutedude-logo.svg"
-              alt="TuteDude"
+              alt="Tutedude"
               width={28}
               height={28}
               className="rounded-md"

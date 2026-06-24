@@ -30,30 +30,30 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
-const SITE_TITLE = "Creator's Handbook — TuteDude iPhone Challenge";
+const SITE_TITLE = "Creator's Handbook — Tutedude iPhone Challenge";
 const SITE_DESC =
-  "Learn. Create. Share. Win. The official TuteDude Creator's Handbook for the #30DayTuteDudeChallenge — reimagined as an immersive, award-grade experience.";
+  "Learn. Create. Share. Win. The official Tutedude Creator's Handbook for the #30DayTutedudeChallenge — reimagined as an immersive, award-grade experience.";
 
 export const metadata: Metadata = {
   title: {
     default: SITE_TITLE,
-    template: "%s · TuteDude",
+    template: "%s · Tutedude",
   },
   description: SITE_DESC,
   keywords: [
-    "TuteDude",
+    "Tutedude",
     "Creator Handbook",
     "iPhone Challenge",
     "Instagram Reels",
     "30 Day Challenge",
     "Learn AI",
   ],
-  authors: [{ name: "TuteDude" }],
+  authors: [{ name: "Tutedude" }],
   openGraph: {
     title: SITE_TITLE,
     description: SITE_DESC,
     type: "website",
-    siteName: "TuteDude Creator's Handbook",
+    siteName: "Tutedude Creator's Handbook",
   },
   twitter: {
     card: "summary_large_image",

@@ -52,7 +52,7 @@ export default function IntroLoader() {
     <div className="intro" aria-hidden>
       {/* brand mark that fades as the rocket launches */}
       <div className="intro-brand">
-        <span className="intro-brand-name">tutedude</span>
+        <span className="intro-brand-name">Tutedude</span>
         <span className="intro-brand-sub">Preparing for launch…</span>
       </div>
 

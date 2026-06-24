@@ -120,13 +120,13 @@ export default function Navbar() {
           >
             <Image
               src="/tutedude-logo.svg"
-              alt="TuteDude"
+              alt="Tutedude"
               width={40}
               height={40}
               className="drop-shadow-[0_0_10px_rgba(139,110,245,0.65)]"
             />
             <span className="text-base font-semibold tracking-tight text-fg">
-              tutedude
+              Tutedude
             </span>
           </button>
         </Magnetic>

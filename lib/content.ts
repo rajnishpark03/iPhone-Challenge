@@ -1,16 +1,16 @@
 /**
- * The TuteDude Creator's Handbook — content extracted verbatim from the
+ * The Tutedude Creator's Handbook — content extracted verbatim from the
  * official 2024 Edition handbook PDF. Copy is preserved exactly as written;
  * only the presentation is reimagined. Do not rewrite this copy.
  */
 
 export const meta = {
   edition: "2026 EDITION",
-  brand: "tutedude",
-  challengeTag: "TuteDude iPhone Challenge",
+  brand: "Tutedude",
+  challengeTag: "Tutedude iPhone Challenge",
   title: ["CREATOR'S", "HANDBOOK"],
   tagline: ["Learn.", "Create.", "Share.", "Win."],
-  hashtag: "#30DayTuteDudeChallenge",
+  hashtag: "#30DayTutedudeChallenge",
   heroChips: ["Win an iPhone", "Get Featured", "Build Your Brand"],
   phone: {
     badge: "+1 iPhone",
@@ -34,7 +34,7 @@ export const welcome = {
   ],
   leadAccent: "journey.",
   body:
-    "Whether you're learning AI, Coding, Data Analytics, Marketing, Cybersecurity, Design — or any other skill through TuteDude — this challenge is your stage.",
+    "Whether you're learning AI, Coding, Data Analytics, Marketing, Cybersecurity, Design — or any other skill through Tutedude — this challenge is your stage.",
   checklist: [
     "Build your creator profile",
     "Share your progress",
@@ -70,7 +70,7 @@ export const prizes = {
     {
       title: "Creator Spotlights",
       description:
-        "Get featured across TuteDude's platforms & reach thousands of learners.",
+        "Get featured across Tutedude's platforms & reach thousands of learners.",
     },
     {
       title: "Creator of the Week",
@@ -81,7 +81,7 @@ export const prizes = {
   hallOfFame: {
     title: "Hall of Fame",
     description:
-      "Top submissions showcased permanently as TuteDude's best creators.",
+      "Top submissions showcased permanently as Tutedude's best creators.",
   },
 };
 
@@ -110,8 +110,8 @@ export const howItWorks = {
     },
     {
       n: "4",
-      title: "Tag @tutedude",
-      titleAccent: "@tutedude",
+      title: "Tag @Tutedude",
+      titleAccent: "@Tutedude",
       description:
         "Tag us & use the #30DayTutedudechallenge hashtag in every reel.",
     },
@@ -184,7 +184,7 @@ export const contentIdeas = {
     { n: "03", text: "Building My First Project" },
     { n: "04", text: "Things I Wish I Knew Earlier" },
     { n: "05", text: "One Tool That Saved Me Hours" },
-    { n: "06", text: "Before TuteDude vs After", tone: "ember" },
+    { n: "06", text: "Before Tutedude vs After", tone: "ember" },
     { n: "07", text: "Watch Me Build This" },
     { n: "08", text: "My Biggest Learning Mistake" },
     { n: "09", text: "Skill That Changed My Career", tone: "ember" },
@@ -320,7 +320,7 @@ export const scoring = {
     },
     {
       name: "Learning Relevance",
-      detail: "Reflects your TuteDude journey",
+      detail: "Reflects your Tutedude journey",
       pct: 10,
       tone: "ember",
     },
@@ -413,7 +413,7 @@ export const faq = {
     { q: "Can I submit after July 31?", a: "NO" },
   ],
   footnote:
-    "Still stuck? Drop your question in the TuteDude community — we reply fast.",
+    "Still stuck? Drop your question in the Tutedude community — we reply fast.",
 };
 
 /* Closing — YOUR TURN */
@@ -426,7 +426,7 @@ export const closing = {
   titleAccent: "could be you.",
   chips: ["Create", "Learn", "Share", "Win"],
   emberChip: "Win",
-  hashtag: "#30DayTuteDudeChallenge",
+  hashtag: "#30DayTutedudeChallenge",
 };
 
 export const sections = [
