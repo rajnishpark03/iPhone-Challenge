@@ -280,6 +280,15 @@ function makeRingGeometry(inner: number, outer: number) {
 let GLOW: THREE.Texture | null = null;
 
 /* ------------------------------------------------------------- a planet --- */
+type Satellite = {
+  dist?: number; // orbit radius as multiple of planet radius
+  size?: number; // satellite radius as multiple of planet radius
+  speed?: number;
+  color?: string;
+  tilt?: number;
+  craft?: boolean; // true = realistic man-made satellite, false = small moon
+};
+
 type PlanetProps = {
   position: [number, number, number];
   radius: number;
@@ -291,7 +300,73 @@ type PlanetProps = {
   glow: string;
   glowOpacity?: number;
   ring?: { tex: THREE.Texture; inner: number; outer: number };
+  bobAmp?: number; // vertical sway amplitude
+  bobSpeed?: number;
+  phase?: number;
+  satellite?: Satellite;
 };
+
+/* a small, realistic man-made satellite: foil-wrapped body + solar panels + dish */
+function SatelliteMesh({ scale = 0.1 }: { scale?: number }) {
+  const g = useRef<THREE.Group>(null);
+  useFrame((_, dt) => {
+    if (g.current) g.current.rotation.y += dt * 0.5;
+  });
+  return (
+    <group ref={g} scale={scale}>
+      {/* body */}
+      <mesh>
+        <boxGeometry args={[0.55, 0.55, 0.82]} />
+        <meshStandardMaterial color="#cfd3db" metalness={0.7} roughness={0.35} />
+      </mesh>
+      {/* gold-foil accent */}
+      <mesh>
+        <boxGeometry args={[0.58, 0.42, 0.5]} />
+        <meshStandardMaterial color="#d8b25a" metalness={0.6} roughness={0.4} />
+      </mesh>
+      {/* solar panels */}
+      <mesh position={[1.05, 0, 0]}>
+        <boxGeometry args={[1.3, 0.04, 0.62]} />
+        <meshStandardMaterial
+          color="#163a6b"
+          metalness={0.4}
+          roughness={0.5}
+          emissive="#0e2550"
+          emissiveIntensity={0.4}
+        />
+      </mesh>
+      <mesh position={[-1.05, 0, 0]}>
+        <boxGeometry args={[1.3, 0.04, 0.62]} />
+        <meshStandardMaterial
+          color="#163a6b"
+          metalness={0.4}
+          roughness={0.5}
+          emissive="#0e2550"
+          emissiveIntensity={0.4}
+        />
+      </mesh>
+      {/* struts */}
+      <mesh position={[0.5, 0, 0]}>
+        <boxGeometry args={[0.42, 0.05, 0.05]} />
+        <meshStandardMaterial color="#8a8f99" metalness={0.6} roughness={0.4} />
+      </mesh>
+      <mesh position={[-0.5, 0, 0]}>
+        <boxGeometry args={[0.42, 0.05, 0.05]} />
+        <meshStandardMaterial color="#8a8f99" metalness={0.6} roughness={0.4} />
+      </mesh>
+      {/* dish antenna */}
+      <mesh position={[0, 0.44, 0.12]} rotation={[Math.PI / 2.6, 0, 0]}>
+        <coneGeometry args={[0.22, 0.16, 14, 1, true]} />
+        <meshStandardMaterial
+          color="#e8e8ee"
+          metalness={0.3}
+          roughness={0.5}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+    </group>
+  );
+}
 
 function Planet({
   position,
@@ -300,21 +375,31 @@ function Planet({
   bump,
   bumpScale = 0.04,
   tilt = 0.4,
-  spin = 0.05,
+  spin = 0.02,
   glow,
   glowOpacity = 0.45,
   ring,
+  bobAmp = 0.2,
+  bobSpeed = 0.5,
+  phase = 0,
+  satellite,
 }: PlanetProps) {
+  const root = useRef<THREE.Group>(null);
   const surface = useRef<THREE.Mesh>(null);
+  const satOrbit = useRef<THREE.Group>(null);
   const ringGeo = useMemo(
     () => (ring ? makeRingGeometry(radius * ring.inner, radius * ring.outer) : null),
     [ring, radius]
   );
-  useFrame((_, dt) => {
+  useFrame((state, dt) => {
+    const t = state.clock.elapsedTime;
     if (surface.current) surface.current.rotation.y += spin * dt;
+    // gentle up/down sway only
+    if (root.current) root.current.position.y = position[1] + Math.sin(t * bobSpeed + phase) * bobAmp;
+    if (satOrbit.current) satOrbit.current.rotation.y = t * (satellite?.speed ?? 0.6);
   });
   return (
-    <group position={position} rotation={[tilt, 0, 0.18]}>
+    <group ref={root} position={position} rotation={[tilt, 0, 0.18]}>
       <mesh ref={surface}>
         <sphereGeometry args={[radius, 64, 48]} />
         <meshStandardMaterial
@@ -337,6 +422,26 @@ function Planet({
             depthWrite={false}
           />
         </mesh>
+      )}
+
+      {/* orbiting satellite — realistic craft or small moon */}
+      {satellite && (
+        <group ref={satOrbit} rotation={[satellite.tilt ?? 0.5, 0, 0]}>
+          {satellite.craft ? (
+            <group position={[radius * (satellite.dist ?? 1.9), 0, 0]}>
+              <SatelliteMesh scale={radius * (satellite.size ?? 0.09)} />
+            </group>
+          ) : (
+            <mesh position={[radius * (satellite.dist ?? 1.9), 0, 0]}>
+              <sphereGeometry args={[radius * (satellite.size ?? 0.06), 18, 18]} />
+              <meshStandardMaterial
+                color={satellite.color ?? "#cdd2dc"}
+                roughness={0.85}
+                metalness={0.1}
+              />
+            </mesh>
+          )}
+        </group>
       )}
 
       {/* atmospheric halo */}
@@ -371,16 +476,8 @@ function Worlds({ scale }: { scale: number }) {
     };
   }, []);
 
-  const drift = useRef<THREE.Group>(null);
-  useFrame((state) => {
-    if (drift.current) {
-      const t = state.clock.elapsedTime;
-      drift.current.position.y = Math.sin(t * 0.08) * 0.12;
-    }
-  });
-
   return (
-    <group ref={drift} scale={scale}>
+    <group scale={scale}>
       {/* ringed gas giant — upper right */}
       <Planet
         position={[5.0, 2.5, -2]}
@@ -389,10 +486,14 @@ function Worlds({ scale }: { scale: number }) {
         bump={tex.saturnBump}
         bumpScale={0.015}
         tilt={0.5}
-        spin={0.045}
+        spin={0.03}
         glow="#e8d6a8"
         glowOpacity={0.4}
         ring={{ tex: tex.ring, inner: 1.35, outer: 2.35 }}
+        bobAmp={0.1}
+        bobSpeed={0.42}
+        phase={0}
+        satellite={{ dist: 2.7, size: 0.045, speed: 0.6, color: "#d8d2c4", tilt: 0.4 }}
       />
       {/* large, prominent moon — upper left (the reference's hero body) */}
       <Planet
@@ -405,6 +506,10 @@ function Worlds({ scale }: { scale: number }) {
         spin={0.02}
         glow="#dfe4ee"
         glowOpacity={0.35}
+        bobAmp={0.12}
+        bobSpeed={0.5}
+        phase={1.3}
+        satellite={{ dist: 1.85, size: 0.05, speed: 0.55, color: "#bfc4cf", tilt: 0.6 }}
       />
       {/* Earth-like — lower left */}
       <Planet
@@ -414,9 +519,13 @@ function Worlds({ scale }: { scale: number }) {
         bump={tex.earthBump}
         bumpScale={0.03}
         tilt={0.41}
-        spin={0.07}
+        spin={0.05}
         glow="#6fb4ff"
         glowOpacity={0.5}
+        bobAmp={0.14}
+        bobSpeed={0.6}
+        phase={2.1}
+        satellite={{ dist: 1.9, size: 0.085, speed: 0.7, craft: true, tilt: 0.5 }}
       />
       {/* Mars-like — lower right, further back */}
       <Planet
@@ -426,9 +535,13 @@ function Worlds({ scale }: { scale: number }) {
         bump={tex.marsBump}
         bumpScale={0.05}
         tilt={0.35}
-        spin={0.06}
+        spin={0.05}
         glow="#ff8a4a"
         glowOpacity={0.4}
+        bobAmp={0.14}
+        bobSpeed={0.7}
+        phase={0.6}
+        satellite={{ dist: 1.9, size: 0.05, speed: 0.7, color: "#caa089", tilt: 0.45 }}
       />
     </group>
   );

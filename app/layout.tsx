@@ -8,6 +8,7 @@ import AuroraBackground from "@/components/ui/AuroraBackground";
 import SpaceBackground from "@/components/ui/SpaceBackground";
 import PlanetBackground from "@/components/three/PlanetBackground";
 import IntroLoader from "@/components/ui/IntroLoader";
+import Flashlight from "@/components/ui/Flashlight";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Navbar from "@/components/sections/Navbar";
 import Dock from "@/components/sections/Dock";
@@ -91,6 +92,7 @@ export default function RootLayout({
         <PlanetBackground />
         <div className="noise-overlay" />
         <IntroLoader />
+        <Flashlight />
         <ScrollProgress />
         <CustomCursor />
         <SmoothScroll>

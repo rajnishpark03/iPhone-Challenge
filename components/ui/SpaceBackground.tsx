@@ -70,33 +70,6 @@ export default function SpaceBackground() {
       <span className="shooting s2" />
       <span className="shooting s3" />
 
-      {/* small rocket launching bottom → top with a smoke trail */}
-      <div className="shuttle">
-        <div className="plume" />
-        <span className="puff puff1" />
-        <span className="puff puff2" />
-        <span className="puff puff3" />
-        <span className="puff puff4" />
-        <div className="flame" />
-        <svg className="rocket" viewBox="0 0 60 96" xmlns="http://www.w3.org/2000/svg">
-          {/* fins */}
-          <path d="M18 60 L8 78 L18 72 Z" fill="#c0392b" />
-          <path d="M42 60 L52 78 L42 72 Z" fill="#c0392b" />
-          {/* body */}
-          <path
-            d="M30 4 C42 16 44 34 44 50 L44 66 C44 70 40 73 30 73 C20 73 16 70 16 66 L16 50 C16 34 18 16 30 4 Z"
-            fill="#e9edf5"
-          />
-          {/* nose */}
-          <path d="M30 4 C36 11 40 20 41 28 L19 28 C20 20 24 11 30 4 Z" fill="#e0473a" />
-          {/* window */}
-          <circle cx="30" cy="38" r="7" fill="#2b86d6" stroke="#1b5fa6" strokeWidth="2.5" />
-          {/* fuselage shade */}
-          <path d="M44 50 L44 66 C44 70 40 73 30 73 L30 28 C36 32 41 40 44 50 Z" fill="#000" opacity="0.06" />
-          {/* engine ring */}
-          <rect x="18" y="69" width="24" height="6" rx="3" fill="#9aa3b2" />
-        </svg>
-      </div>
 
       <style jsx>{`
         .space-tint {
