@@ -8,7 +8,7 @@ export const meta = {
   edition: "2026 EDITION",
   brand: "Tutedude",
   challengeTag: "Tutedude iPhone Challenge",
-  title: ["CREATOR'S", "HANDBOOK"],
+  title: ["Tutedude", "iPhone", "Challenge"],
   tagline: ["Learn.", "Create.", "Share.", "Win."],
   hashtag: "#30DayTutedudeChallenge",
   heroChips: ["Win an iPhone", "Get Featured", "Build Your Brand"],

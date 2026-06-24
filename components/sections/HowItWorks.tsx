@@ -24,9 +24,9 @@ export default function HowItWorks() {
 
   useGSAP(
     () => {
-      const prefersReduced = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
+      const prefersReduced =
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        window.matchMedia("(max-width: 767px)").matches;
       if (prefersReduced) return;
 
       // Draw the connecting line as you scroll

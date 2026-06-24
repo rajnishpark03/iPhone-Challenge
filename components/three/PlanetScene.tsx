@@ -568,9 +568,9 @@ export default function PlanetScene() {
   return (
     <Canvas
       frameloop={active ? "always" : "never"}
-      dpr={[1, 1.5]}
+      dpr={1}
       camera={{ position: [0, 0, 12], fov: 32 }}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
       style={{ pointerEvents: "none" }}
     >
       <Suspense fallback={null}>

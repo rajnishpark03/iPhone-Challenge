@@ -48,30 +48,30 @@
 
   /* ---------- Light theme ---------- */
   [data-theme="light"] {
-    --bg: #f3f1fb;
+    --bg: #ede9fb;
     --bg-2: #ffffff;
     --background: var(--bg);
-    --fg-rgb: 24 21 48;
+    --fg-rgb: 21 18 44;
     --foreground: rgb(var(--fg-rgb));
     --surface-rgb: 28 22 70;
     --line-rgb: 28 22 70;
     --grid-rgb: 30 25 80;
 
-    --glass-bg-1: rgba(255, 255, 255, 0.72);
-    --glass-bg-2: rgba(255, 255, 255, 0.4);
-    --glass-border: rgba(28, 22, 70, 0.12);
-    --glass-strong-1: rgba(255, 255, 255, 0.85);
-    --glass-strong-2: rgba(255, 255, 255, 0.55);
-    --glass-strong-border: rgba(28, 22, 70, 0.16);
+    --glass-bg-1: rgba(255, 255, 255, 0.78);
+    --glass-bg-2: rgba(247, 245, 255, 0.5);
+    --glass-border: rgba(28, 22, 70, 0.16);
+    --glass-strong-1: rgba(255, 255, 255, 0.9);
+    --glass-strong-2: rgba(247, 245, 255, 0.62);
+    --glass-strong-border: rgba(28, 22, 70, 0.22);
 
     --aurora-base: radial-gradient(
       125% 125% at 50% -10%,
-      #e9e2ff 0%,
-      #f1ecff 45%,
-      #fbfaff 100%
+      #d6caff 0%,
+      #e6defb 42%,
+      #f6f4ff 100%
     );
-    --aurora-blob-opacity: 0.45;
-    --noise-opacity: 0.04;
+    --aurora-blob-opacity: 0.6;
+    --noise-opacity: 0.035;
     --noise-blend: multiply;
     /* adaptive brand accent text — deeper tints for light backgrounds */
     --accent-violet-rgb: 87 51 224; /* violet-700 */
@@ -200,6 +200,17 @@
     backdrop-filter: blur(20px) saturate(150%);
     -webkit-backdrop-filter: blur(20px) saturate(150%);
     border: 1px solid rgba(139, 110, 245, 0.28);
+  }
+
+  /* On touch devices, heavy backdrop-blur repaints every glass card on scroll
+     and tanks frame-rate. Use a much lighter blur there (desktop is untouched). */
+  @media (pointer: coarse) {
+    .glass,
+    .glass-strong,
+    .glass-violet {
+      backdrop-filter: blur(7px) saturate(130%);
+      -webkit-backdrop-filter: blur(7px) saturate(130%);
+    }
   }
 
   /* ---------- Text gradients ---------- */
@@ -371,5 +382,30 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Mobile (< 768px): ship a calm, static, battery-friendly experience.
+   Mirrors the reduced-motion treatment so every CSS keyframe + transition
+   freezes on phones. JS/WebGL animations are gated separately in their
+   components (matchMedia max-width:767px). Desktop is intentionally untouched.
+--------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Purely decorative drifting overlays add nothing once frozen — hide them
+     so they never sit on top of content. */
+  .wander-rocket,
+  .flashlight {
+    display: none !important;
   }
 }

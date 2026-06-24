@@ -4,14 +4,17 @@ import dynamic from "next/dynamic";
 import { useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowDown, Sparkles, Trophy, Video, Rocket } from "lucide-react";
+import { Sparkles, Trophy, Video, Rocket } from "lucide-react";
 import { meta } from "@/lib/content";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { scrollToId } from "@/components/providers/SmoothScroll";
+import { useIsMobile } from "@/lib/useIsMobile";
 import MagicButton from "@/components/ui/MagicButton";
 import HeroHorizon from "@/components/ui/HeroHorizon";
 import { GradientText, ShinyText, Eyebrow } from "@/components/ui/TextEffects";
+import FloatingText from "@/components/ui/FloatingText";
+import InfoTip from "@/components/ui/InfoTip";
 import { cn } from "@/lib/utils";
 
 const HeroScene = dynamic(() => import("@/components/three/HeroScene"), {
@@ -23,25 +26,16 @@ const chipIcons = [Trophy, Video, Rocket];
 
 export default function Hero() {
   const root = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useGSAP(
     () => {
-      const prefersReduced = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
+      const prefersReduced =
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        window.matchMedia("(max-width: 767px)").matches;
 
-      // Title line reveal (mask up)
-      const lines = gsap.utils.toArray<HTMLElement>(".hero-line span");
+      // (Title now reveals + floats per-letter via Framer Motion — see below.)
       if (!prefersReduced) {
-        gsap.set(lines, { yPercent: 120 });
-        gsap.to(lines, {
-          yPercent: 0,
-          duration: 1.2,
-          ease: "power4.out",
-          stagger: 0.12,
-          delay: 0.3,
-        });
-
         // Parallax depth on scroll
         gsap.to(".hero-parallax-slow", {
           yPercent: 30,
@@ -90,9 +84,9 @@ export default function Hero() {
       onMouseMove={onMouseMove}
       className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-5 pt-24"
     >
-      {/* 3D layer */}
+      {/* 3D layer — skipped on phones (WebGL is the heaviest hero cost) */}
       <div className="hero-parallax-slow pointer-events-none absolute inset-0 z-0">
-        <HeroScene />
+        {!isMobile && <HeroScene />}
       </div>
 
       {/* cinematic rock horizon anchoring the first screen */}
@@ -167,15 +161,78 @@ export default function Hero() {
           {meta.challengeTag}
         </motion.div>
 
-        {/* Huge title with line-mask reveal */}
-        <h1 className="font-display text-[clamp(3rem,12vw,9.5rem)] font-extrabold leading-[0.86] tracking-[-0.04em]">
-          <span className="hero-line block overflow-hidden">
-            <span className="block">{meta.title[0]}</span>
+        {/* Huge title — every letter (and the iPhone) floats independently */}
+        <h1 className="font-display text-[clamp(2rem,10vw,8.5rem)] font-extrabold leading-[0.96] tracking-[-0.04em] sm:leading-[0.92]">
+          <span className="block whitespace-nowrap py-[0.04em]">
+            <FloatingText
+              text={meta.title[0]}
+              baseDelay={0.25}
+              seedOffset={0}
+              float={false}
+            />
           </span>
-          <span className="hero-line block overflow-hidden">
-            <span className="block">
-              <GradientText variant="violet">{meta.title[1]}</GradientText>
-            </span>
+          <span className="block whitespace-nowrap py-[0.04em]">
+            <FloatingText
+              text={meta.title[1]}
+              charClassName="text-gradient-violet"
+              baseDelay={0.45}
+              seedOffset={20}
+              float={false}
+            />
+            {/* small iPhone tucked beside "iPhone" — floats on its own too */}
+            <motion.span
+              className="inline-block align-middle"
+              initial={{ opacity: 0, y: 64 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.85, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <motion.span
+                className="inline-block will-change-transform"
+                animate={{ y: [0, -12, 0] }}
+                transition={{
+                  duration: 3.6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.4,
+                }}
+              >
+                <Image
+                  src="/iphone-15-prize.png"
+                  alt=""
+                  aria-hidden
+                  width={914}
+                  height={1200}
+                  priority
+                  className="ml-[0.16em] inline-block h-[0.72em] w-auto -translate-y-[0.05em] align-middle drop-shadow-[0_6px_16px_rgba(0,0,0,0.5)]"
+                />
+              </motion.span>
+            </motion.span>
+          </span>
+          <span className="block whitespace-nowrap py-[0.04em]">
+            <InfoTip
+              tip="How it works — the 6 steps from sign-up to winning. Click to jump in →"
+              placement="bottom"
+            >
+              <a
+                href="#how-it-works"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId("how-it-works");
+                }}
+                data-cursor="hover"
+                data-cursor-label="How it works"
+                aria-label="See how the Tutedude iPhone Challenge works"
+                className="inline-block cursor-pointer transition-opacity hover:opacity-90"
+              >
+                <FloatingText
+                  text={meta.title[2]}
+                  charClassName="text-gradient-violet"
+                  baseDelay={0.65}
+                  seedOffset={40}
+                  float={false}
+                />
+              </a>
+            </InfoTip>
           </span>
         </h1>
 
@@ -234,26 +291,6 @@ export default function Hero() {
           </div>
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.button
-        onClick={() => scrollToId("welcome")}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8 }}
-        data-cursor="hover"
-        className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-fg/50"
-      >
-        <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
-        <span className="flex h-9 w-5 items-start justify-center rounded-full border border-line/20 p-1">
-          <motion.span
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-            className="h-1.5 w-1.5 rounded-full bg-violet-300"
-          />
-        </span>
-        <ArrowDown className="h-3 w-3 animate-bounce" />
-      </motion.button>
     </section>
   );
 }

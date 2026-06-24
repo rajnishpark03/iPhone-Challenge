@@ -25,6 +25,11 @@ export default function Counter({
 
   useEffect(() => {
     if (!inView) return;
+    // On phones, skip the count-up and show the final number immediately.
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      setValue(to);
+      return;
+    }
     let raf = 0;
     const start = performance.now();
     const tick = (now: number) => {

@@ -18,7 +18,11 @@ export default function IntroLoader() {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Skip the cinematic intro on phones (and for reduced-motion users) — the
+    // page should just be there instantly on mobile.
+    const reduce =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(max-width: 767px)").matches;
     if (reduce) {
       setShow(false);
       return;

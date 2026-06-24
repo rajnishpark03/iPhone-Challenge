@@ -3,13 +3,13 @@ import { Inter, Sora, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 import SmoothScroll from "@/components/providers/SmoothScroll";
+import MotionProvider from "@/components/providers/MotionProvider";
 import CustomCursor from "@/components/cursor/CustomCursor";
 import AuroraBackground from "@/components/ui/AuroraBackground";
 import SpaceBackground from "@/components/ui/SpaceBackground";
 import PlanetBackground from "@/components/three/PlanetBackground";
+import WanderingRocket from "@/components/ui/WanderingRocket";
 import IntroLoader from "@/components/ui/IntroLoader";
-import Flashlight from "@/components/ui/Flashlight";
-import ScrollProgress from "@/components/ui/ScrollProgress";
 import Navbar from "@/components/sections/Navbar";
 import Dock from "@/components/sections/Dock";
 
@@ -75,31 +75,23 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-theme="dark"
       className={`${inter.variable} ${sora.variable} ${mono.variable}`}
-      suppressHydrationWarning
     >
-      <head>
-        <script
-          // Resolve theme before first paint to avoid a flash.
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var m=localStorage.getItem('theme-mode')||'system';var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=(m==='system'?(d?'dark':'light'):m);}catch(e){document.documentElement.dataset.theme='dark';}})();`,
-          }}
-        />
-      </head>
       <body className="min-h-screen bg-canvas text-foreground antialiased">
-        <AuroraBackground />
-        <SpaceBackground />
-        <PlanetBackground />
-        <div className="noise-overlay" />
-        <IntroLoader />
-        <Flashlight />
-        <ScrollProgress />
-        <CustomCursor />
-        <SmoothScroll>
-          <Navbar />
-          <main className="relative z-10">{children}</main>
-          <Dock />
-        </SmoothScroll>
+        <MotionProvider>
+          <AuroraBackground />
+          <SpaceBackground />
+          <PlanetBackground />
+          <WanderingRocket />
+          <IntroLoader />
+          <CustomCursor />
+          <SmoothScroll>
+            <Navbar />
+            <main className="relative z-10">{children}</main>
+            <Dock />
+          </SmoothScroll>
+        </MotionProvider>
       </body>
     </html>
   );

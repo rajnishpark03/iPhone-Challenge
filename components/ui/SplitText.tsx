@@ -35,9 +35,9 @@ export default function SplitText({
     const el = ref.current;
     if (!el) return;
 
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const prefersReduced =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(max-width: 767px)").matches;
 
     const targets = el.querySelectorAll<HTMLElement>(".anim-piece");
     if (prefersReduced) {

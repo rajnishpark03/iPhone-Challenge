@@ -17,6 +17,8 @@ export default function Flashlight() {
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Desktop pointers only — skip the rAF/listeners on touch for smoothness.
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
     let x = window.innerWidth / 2;
     let y = window.innerHeight / 2;

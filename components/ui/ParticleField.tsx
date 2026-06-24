@@ -22,9 +22,10 @@ export default function ParticleField({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    // Phones get a single static frame — no rAF loop.
+    const prefersReduced =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(max-width: 767px)").matches;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;

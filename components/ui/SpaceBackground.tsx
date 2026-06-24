@@ -22,7 +22,7 @@ function mulberry32(seed: number) {
 }
 
 const rand = mulberry32(20240701);
-const STARS = Array.from({ length: 150 }, () => {
+const STARS = Array.from({ length: 64 }, () => {
   const r = rand();
   return {
     x: rand() * 100,
@@ -133,8 +133,6 @@ export default function SpaceBackground() {
             );
           filter: blur(8px) saturate(120%);
           opacity: 0.85;
-          will-change: transform, opacity;
-          animation: galaxy-drift 60s ease-in-out infinite;
         }
         @keyframes galaxy-drift {
           0%,
@@ -192,7 +190,7 @@ export default function SpaceBackground() {
           animation-name: twinkle;
           animation-iteration-count: infinite;
           animation-timing-function: ease-in-out;
-          will-change: opacity, transform;
+          will-change: opacity;
         }
         :global([data-theme="light"]) .space-stars {
           opacity: 0.35;
@@ -201,11 +199,9 @@ export default function SpaceBackground() {
           0%,
           100% {
             opacity: calc(var(--op) * 0.25);
-            transform: scale(0.8);
           }
           50% {
             opacity: var(--op);
-            transform: scale(1.15);
           }
         }
 
@@ -436,6 +432,84 @@ export default function SpaceBackground() {
             transform: translate(72vw, -36vh) scale(1.05);
             opacity: 0;
           }
+        }
+
+        /* ---- Mobile / touch: drop the GPU-heavy work for a smooth feel ---- */
+        @media (max-width: 820px), (pointer: coarse) {
+          .galaxy {
+            filter: none; /* animated blur() is the single costliest effect */
+            animation: none;
+            opacity: 0.72;
+          }
+          .milky-way {
+            display: none; /* mask-image compositing is pricey on phones */
+          }
+          .comet {
+            display: none;
+          }
+          .star {
+            box-shadow: none; /* cheaper compositing */
+            animation-name: twinkle-fade; /* opacity-only, no scale repaint */
+          }
+          .star:nth-child(2n) {
+            display: none; /* ~half as many animated nodes */
+          }
+        }
+        @keyframes twinkle-fade {
+          0%,
+          100% {
+            opacity: calc(var(--op) * 0.32);
+          }
+          50% {
+            opacity: var(--op);
+          }
+        }
+
+        /* ---- Light theme: a soft dawn sky, not just dimmed-down space ---- */
+        :global([data-theme="light"]) .space-tint {
+          background:
+            radial-gradient(
+              120% 92% at 50% 110%,
+              rgba(255, 196, 158, 0.55) 0%,
+              rgba(255, 222, 194, 0.2) 24%,
+              transparent 54%
+            ),
+            linear-gradient(180deg, #cfe0ff 0%, #e8e2fb 44%, #f7f2ff 100%);
+          opacity: 1;
+        }
+        :global([data-theme="light"]) .galaxy {
+          background:
+            radial-gradient(
+              44% 38% at 22% 26%,
+              rgba(255, 255, 255, 0.85) 0%,
+              transparent 70%
+            ),
+            radial-gradient(
+              48% 40% at 78% 20%,
+              rgba(255, 255, 255, 0.72) 0%,
+              transparent 72%
+            ),
+            radial-gradient(
+              50% 44% at 66% 82%,
+              rgba(206, 192, 255, 0.5) 0%,
+              transparent 74%
+            ),
+            radial-gradient(
+              42% 38% at 14% 84%,
+              rgba(255, 210, 182, 0.5) 0%,
+              transparent 72%
+            );
+          filter: blur(6px);
+          opacity: 0.9;
+        }
+        :global([data-theme="light"]) .milky-way {
+          display: none;
+        }
+        :global([data-theme="light"]) .space-stars {
+          opacity: 0.2;
+        }
+        :global([data-theme="light"]) .comet {
+          opacity: 0.55;
         }
 
         @media (prefers-reduced-motion: reduce) {

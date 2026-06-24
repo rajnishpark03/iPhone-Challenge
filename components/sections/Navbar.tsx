@@ -7,10 +7,26 @@ import { sections } from "@/lib/content";
 import { scrollToId } from "@/components/providers/SmoothScroll";
 import Magnetic from "@/components/ui/Magnetic";
 import MagicButton from "@/components/ui/MagicButton";
-import ThemeToggle from "@/components/providers/ThemeToggle";
+import InfoTip from "@/components/ui/InfoTip";
 import { cn } from "@/lib/utils";
 
 type Section = (typeof sections)[number];
+
+// Short "what's in here" blurbs shown on hover/focus of each nav link.
+const NAV_TIPS: Record<string, string> = {
+  welcome: "Start here — what the challenge is all about",
+  prizes: "The iPhone, features & rewards you can win",
+  "how-it-works": "From sign-up to spotlight, step by step",
+  "what-to-post": "Content formats & ideas that actually work",
+  "content-ideas": "Hooks that grab the first 3 seconds",
+  voice: "Find your natural on-camera voice",
+  "best-practices": "Craft tips to level up every reel",
+  "how-to-shoot": "Simple setups to shoot great video",
+  scoring: "How entries are judged & ranked",
+  "ground-rules": "The rules of the challenge",
+  "fair-play": "Integrity — what gets entries disqualified",
+  faq: "Common questions, answered",
+};
 
 // All sections (minus the hero intro) for wide screens.
 const FULL_NAV = sections.slice(1, 13);
@@ -40,24 +56,25 @@ function PillRow({
   return (
     <div className={cn("items-center gap-0.5", className)}>
       {items.map((s) => (
-        <button
-          key={s.id}
-          onClick={() => scrollToId(s.id)}
-          data-cursor="hover"
-          className={cn(
-            "relative whitespace-nowrap rounded-full px-2.5 py-1.5 text-[12px] font-medium transition-colors",
-            active === s.id ? "text-fg" : "text-fg/45 hover:text-fg/80"
-          )}
-        >
-          {active === s.id && (
-            <motion.span
-              layoutId={layoutId}
-              className="absolute inset-0 -z-10 rounded-full bg-surface/10"
-              transition={{ type: "spring", stiffness: 380, damping: 30 }}
-            />
-          )}
-          {s.label}
-        </button>
+        <InfoTip key={s.id} tip={NAV_TIPS[s.id] ?? s.label} placement="bottom">
+          <button
+            onClick={() => scrollToId(s.id)}
+            data-cursor="hover"
+            className={cn(
+              "relative whitespace-nowrap rounded-full px-2.5 py-1.5 text-[12px] font-medium transition-colors",
+              active === s.id ? "text-fg" : "text-fg/45 hover:text-fg/80"
+            )}
+          >
+            {active === s.id && (
+              <motion.span
+                layoutId={layoutId}
+                className="absolute inset-0 -z-10 rounded-full bg-surface/10"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+            {s.label}
+          </button>
+        </InfoTip>
       ))}
     </div>
   );
@@ -145,17 +162,16 @@ export default function Navbar() {
           className="hidden xl:flex"
         />
 
-        {/* Theme toggle + CTA */}
+        {/* CTA */}
         <div className="flex items-center gap-2">
-          <ThemeToggle />
           <MagicButton
             onClick={() => scrollToId("closing")}
             variant="violet"
             size="md"
             cursorLabel="Join"
-            className="!px-5 !py-2"
+            className="!px-3.5 !py-2 sm:!px-5"
           >
-            Join Challenge
+            Join<span className="hidden sm:inline">&nbsp;Challenge</span>
           </MagicButton>
         </div>
       </nav>

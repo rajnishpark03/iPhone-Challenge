@@ -24,7 +24,7 @@ export default function AuroraBackground({
 
       {/* drifting blobs */}
       <div
-        className="aurora-blob animate-aurora"
+        className="aurora-blob"
         style={{
           width: 620,
           height: 620,
@@ -36,7 +36,7 @@ export default function AuroraBackground({
         }}
       />
       <div
-        className="aurora-blob animate-aurora"
+        className="aurora-blob"
         style={{
           width: 520,
           height: 520,
@@ -49,7 +49,7 @@ export default function AuroraBackground({
         }}
       />
       <div
-        className="aurora-blob animate-aurora"
+        className="aurora-blob"
         style={{
           width: 700,
           height: 700,

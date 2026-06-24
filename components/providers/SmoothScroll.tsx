@@ -17,7 +17,11 @@ export default function SmoothScroll({
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    if (prefersReduced) return;
+    // On touch devices, native momentum scrolling is far smoother than a JS
+    // smooth-scroll loop. Skip Lenis there (ScrollTrigger still works on the
+    // native scroll) so phones/tablets feel buttery.
+    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    if (prefersReduced || coarsePointer) return;
 
     const lenis = new Lenis({
       duration: 1.15,
