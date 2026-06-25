@@ -5,13 +5,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import MotionProvider from "@/components/providers/MotionProvider";
 import CustomCursor from "@/components/cursor/CustomCursor";
-import AuroraBackground from "@/components/ui/AuroraBackground";
-import SpaceBackground from "@/components/ui/SpaceBackground";
-import PlanetBackground from "@/components/three/PlanetBackground";
-import WanderingRocket from "@/components/ui/WanderingRocket";
-import IntroLoader from "@/components/ui/IntroLoader";
-import Navbar from "@/components/sections/Navbar";
-import Dock from "@/components/sections/Dock";
+import SiteChrome from "@/components/SiteChrome";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -80,16 +74,9 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-canvas text-foreground antialiased">
         <MotionProvider>
-          <AuroraBackground />
-          <SpaceBackground />
-          <PlanetBackground />
-          <WanderingRocket />
-          <IntroLoader />
           <CustomCursor />
           <SmoothScroll>
-            <Navbar />
-            <main className="relative z-10">{children}</main>
-            <Dock />
+            <SiteChrome>{children}</SiteChrome>
           </SmoothScroll>
         </MotionProvider>
       </body>

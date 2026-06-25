@@ -111,15 +111,41 @@ export default function Closing() {
         </Reveal>
       </div>
 
-      {/* giant floating wordmark */}
-      <div className="pointer-events-none relative z-0 mt-16 flex justify-center overflow-hidden">
-        <motion.span
-          animate={{ y: [0, -16, 0], rotate: [-0.6, 0.6, -0.6] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="select-none whitespace-nowrap bg-gradient-to-b from-violet-300/35 via-violet-500/15 to-transparent bg-clip-text font-display text-[19vw] font-extrabold leading-[0.8] tracking-tight text-transparent"
+      {/* giant "Challenge" wordmark — links to How It Works, info on hover.
+          Text stays steady; only the iPhone floats. */}
+      <div className="group relative z-0 mt-16 flex justify-center">
+        <div className="flex w-full justify-center overflow-hidden">
+          <button
+            onClick={() => scrollToId("how-it-works")}
+            data-cursor="hover"
+            aria-label="See how the challenge works"
+            className="cursor-pointer bg-transparent"
+          >
+            <span className="block select-none whitespace-nowrap bg-gradient-to-b from-violet-300/40 via-violet-500/20 to-transparent bg-clip-text font-display text-[19vw] font-extrabold leading-[0.8] tracking-tight text-transparent transition-all duration-500 group-hover:from-violet-200/80 group-hover:via-violet-400/50">
+              Challenge
+            </span>
+          </button>
+        </div>
+
+        {/* floating iPhone — same image as the grand prize */}
+        <motion.div
+          animate={{ y: [0, -18, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          className="pointer-events-none absolute left-[28%] top-[38%] z-10 -translate-x-1/2 -translate-y-1/2"
         >
-          Tutedude
-        </motion.span>
+          <Image
+            src="/iphone-15-prize.png"
+            alt="iPhone 15 — the prize"
+            width={457}
+            height={600}
+            className="h-auto w-20 drop-shadow-[0_26px_55px_rgba(0,0,0,0.6)] sm:w-28 lg:w-36"
+          />
+        </motion.div>
+
+        {/* hover tooltip */}
+        <span className="glass-strong pointer-events-none absolute left-1/2 top-3 -translate-x-1/2 translate-y-3 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold text-fg opacity-0 shadow-glow transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          ✨ How it works: Learn → Create → Share → Win · tap to see the steps
+        </span>
       </div>
 
       {/* footer bar */}
