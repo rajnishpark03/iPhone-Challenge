@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useIsMobile } from "@/lib/useIsMobile";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
@@ -64,7 +65,7 @@ const GOLD =
 const GOLD_BTN =
   "cursor-pointer bg-gradient-to-b from-[#f7dd97] to-[#dca23a] text-[#3a0f33] shadow-[0_10px_30px_-8px_rgba(231,170,58,0.55)] transition-all duration-200 hover:shadow-[0_0_40px_rgba(237,193,104,0.55)] hover:brightness-105 active:scale-[0.97]";
 const CARD =
-  "rounded-2xl border border-white/[0.1] bg-white/[0.05] backdrop-blur-xl transition-all duration-200";
+  "rounded-2xl border border-white/[0.12] bg-[#3a1042] transition-all duration-200";
 
 const snapshotIcons = [Calendar, Smartphone, Target, Trophy];
 const stepIcons = [UserPlus, Film, Smartphone, AtSign, Link2, PartyPopper];
@@ -90,6 +91,7 @@ const prizeIcons = [Sparkles, Star];
 /* ---------------------------------------------------------------- page --- */
 export default function Home() {
   const [open, setOpen] = useState<number | null>(0);
+  const isMobile = useIsMobile();
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#2b0a30] font-sans text-white">
@@ -109,10 +111,7 @@ export default function Home() {
             <span className="text-lg font-bold tracking-tight">{meta.brand}</span>
           </a>
           <div className="flex items-center gap-2 sm:gap-3">
-            <button className="hidden cursor-pointer rounded-full px-4 py-2 text-sm font-semibold text-white/70 transition-colors duration-200 hover:text-white sm:block">
-              Login
-            </button>
-            <button className={`whitespace-nowrap rounded-full px-4 py-2 text-xs font-bold sm:px-5 sm:py-2 sm:text-sm ${GOLD_BTN}`}>
+<button className={`whitespace-nowrap rounded-full px-4 py-3 text-xs font-bold sm:px-5 sm:py-2.5 sm:text-sm ${GOLD_BTN}`}>
               Register Now
             </button>
           </div>
@@ -176,7 +175,7 @@ export default function Home() {
           {/* ---- RIGHT: iPhone + price badge ---- */}
           <div className="relative flex justify-center lg:shrink-0">
             <motion.div
-              animate={{ y: [0, -14, 0] }}
+              animate={isMobile ? {} : { y: [0, -14, 0] }}
               transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }}
               className="relative"
             >
@@ -185,16 +184,11 @@ export default function Home() {
                 alt="iPhone 17"
                 width={300}
                 height={600}
-                className="h-[220px] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] sm:h-[300px] lg:h-[420px]"
+                className="h-[200px] max-w-[90vw] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] sm:h-[300px] lg:h-[420px]"
               />
 
               {/* ₹82,900 badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-                animate={{ opacity: 1, scale: 1, rotate: -5 }}
-                transition={{ delay: 0.7, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute bottom-[10%] left-1/2 w-32 -translate-x-1/2 rounded-xl border-2 border-[#edc168] bg-[#2b0a30] p-2 shadow-[0_0_24px_rgba(237,193,104,0.35)] sm:w-40 sm:rounded-2xl sm:p-3 lg:w-48"
-              >
+              <div className="absolute bottom-[10%] left-1/2 w-28 -translate-x-1/2 rounded-xl border-2 border-[#edc168] bg-[#2b0a30] p-2 shadow-[0_0_24px_rgba(237,193,104,0.35)] sm:w-40 sm:-rotate-[5deg] sm:rounded-2xl sm:p-3 lg:w-48">
                 <p className="text-[7px] font-bold uppercase tracking-widest text-[#edc168]/60 sm:text-[9px]">Grand Prize Worth</p>
                 <p className={`mt-0.5 font-display text-lg font-extrabold leading-none sm:text-2xl lg:text-3xl ${GOLD}`}>
                   ₹82,900
@@ -203,10 +197,10 @@ export default function Home() {
                 <p className="text-[8px] font-bold uppercase tracking-wider text-white/55 sm:text-[10px]">
                   🎉 Win for FREE
                 </p>
-              </motion.div>
+              </div>
 
-              {/* twinkling stars around the phone */}
-              {[
+              {/* twinkling stars — desktop only */}
+              {!isMobile && [
                 { top: "-12%", left: "72%",  delay: 0,    size: 14, dur: 2.2 },
                 { top: "3%",   left: "-18%", delay: 0.4,  size: 11, dur: 2.6 },
                 { top: "-6%",  left: "30%",  delay: 0.9,  size: 8,  dur: 1.9 },
@@ -358,13 +352,33 @@ export default function Home() {
             return (
               <RevealItem key={step.n}>
                 <div className={`${CARD} group h-full p-6 hover:-translate-y-1.5 hover:border-[#edc168]/30 hover:shadow-[0_0_28px_rgba(237,193,104,0.1)]`}>
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-b from-[#f7dd97] to-[#dca23a] text-base font-extrabold text-[#3a0f33]">
-                      {step.n}
-                    </span>
-                    <Icon className="h-5 w-5 text-[#edc168]" />
+                  <motion.span
+                    className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-b from-[#f7dd97] to-[#dca23a] text-base font-extrabold text-[#3a0f33]"
+                    initial={isMobile ? false : { scale: 0, rotate: -20, opacity: 0 }}
+                    whileInView={isMobile ? {} : { scale: 1, rotate: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ type: "spring", stiffness: 300, damping: 18, delay: i * 0.08 }}
+                    whileHover={isMobile ? {} : {
+                      scale: 1.2,
+                      rotate: [0, -10, 10, -6, 0],
+                      boxShadow: "0 0 24px rgba(237,193,104,0.7)",
+                      transition: { duration: 0.45, ease: "easeInOut" },
+                    }}
+                  >
+                    {step.n}
+                    {!isMobile && (
+                      <motion.span
+                        className="absolute inset-0 rounded-2xl bg-[#edc168]"
+                        initial={{ opacity: 0.55, scale: 1 }}
+                        animate={{ opacity: 0, scale: 1.7 }}
+                        transition={{ duration: 0.9, delay: 0.3 + i * 0.1, ease: "easeOut" }}
+                      />
+                    )}
+                  </motion.span>
+                  <div className="mt-4 flex items-center gap-2">
+                    <h3 className="text-lg font-bold">{step.title}</h3>
+                    <Icon className="h-5 w-5 shrink-0 text-[#edc168]" />
                   </div>
-                  <h3 className="mt-4 text-lg font-bold">{step.title}</h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-white/60">
                     {step.description}
                   </p>
@@ -464,9 +478,9 @@ export default function Home() {
               }}
             />
             <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/30 blur-2xl" />
-            <div className="relative z-10 flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="relative z-10 flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between">
               {/* text */}
-              <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+              <div className="flex flex-col items-center text-center md:items-start md:text-left">
                 <span className="inline-flex items-center gap-2 rounded-full bg-[#3a0f33]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider">
                   <Crown className="h-4 w-4" /> {prizes.grand.badge}
                 </span>
@@ -480,9 +494,9 @@ export default function Home() {
                   Register Now for Free!
                 </button>
               </div>
-              {/* iphone image with stars */}
+              {/* iphone image with stars — float+stars desktop only */}
               <motion.div
-                animate={{ y: [0, -14, 0] }}
+                animate={isMobile ? {} : { y: [0, -14, 0] }}
                 transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
                 className="relative shrink-0"
               >
@@ -493,7 +507,14 @@ export default function Home() {
                   height={320}
                   className="h-48 w-auto object-contain drop-shadow-[0_16px_32px_rgba(58,15,51,0.35)] sm:h-64"
                 />
-                {[
+                {/* prize chip badge — sits on the bottom of the phone */}
+                <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-max -rotate-[6deg] rounded-lg border border-[#edc168]/40 bg-[#2b0a30]/90 px-2 py-1 shadow-[0_4px_12px_rgba(237,193,104,0.18)] backdrop-blur-sm">
+                  <p className="text-[6px] font-bold uppercase tracking-[0.14em] text-[#edc168]/60">Grand Prize Worth</p>
+                  <p className={`font-display text-xs font-extrabold leading-tight ${GOLD}`}>₹82,900</p>
+                  <div className="my-0.5 h-px bg-[#edc168]/20" />
+                  <p className="text-[6px] font-semibold tracking-wide text-white/50">🎉 Win for Free</p>
+                </div>
+                {!isMobile && [
                   { top: "-20%", left: "85%",  delay: 0,    size: 18 },
                   { top: "8%",   left: "-28%", delay: 0.5,  size: 13 },
                   { top: "70%",  left: "90%",  delay: 1.0,  size: 15 },
@@ -546,7 +567,7 @@ export default function Home() {
       </section>
 
       {/* --------------------------------------------- scoring --- */}
-      <section className="relative mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-16">
+      <section className="relative mx-auto max-w-2xl px-5 py-10 sm:px-8 sm:py-16">
         <div className="section-grid" />
         <Reveal direction="up">
           <h2 className="text-center font-display text-[clamp(1.9rem,4.5vw,3rem)] font-extrabold tracking-tight">
@@ -554,32 +575,80 @@ export default function Home() {
           </h2>
           <p className="mt-3 text-center text-base text-white/60">{scoring.subtitle}</p>
         </Reveal>
-        <div className="mt-10 space-y-6">
-          {scoring.criteria.map((c, i) => (
-            <Reveal key={c.name} direction="up" delay={i * 0.05}>
-              <div>
-                <div className="mb-2 flex items-end justify-between gap-4">
-                  <h3 className="font-bold">
-                    {c.name}{" "}
-                    <span className="text-sm font-normal text-white/45">{c.detail}</span>
-                  </h3>
-                  <span className={`font-display text-2xl font-extrabold ${GOLD}`}>
-                    {c.pct}%
-                  </span>
-                </div>
-                <div className="h-2.5 overflow-hidden rounded-full bg-white/[0.06]">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${c.pct}%` }}
-                    viewport={{ once: true, margin: "-15%" }}
-                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                    className="h-full rounded-full bg-gradient-to-r from-[#f7dd97] to-[#dca23a]"
-                  />
-                </div>
-              </div>
-            </Reveal>
-          ))}
+
+        <div className="relative mt-14">
+          {/* vertical connecting line */}
+          <motion.div
+            className="absolute left-[27px] top-0 w-px sm:left-[31px]"
+            style={{ background: "linear-gradient(to bottom, rgba(237,193,104,0.6), rgba(237,193,104,0.08))" }}
+            initial={{ height: 0 }}
+            whileInView={{ height: "calc(100% - 56px)" }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+          />
+
+          <div className="space-y-3">
+            {scoring.criteria.map((c, i) => {
+              const criterionIcons = [TrendingUp, Sparkles, Repeat, BookOpen, Check];
+              const Icon = criterionIcons[i] ?? Star;
+              const isLast = i === scoring.criteria.length - 1;
+              return (
+                <motion.div
+                  key={c.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-5%" }}
+                  transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: i * 0.1 }}
+                  whileHover={{ x: 6 }}
+                  className="group relative flex items-start gap-5 sm:gap-6"
+                >
+                  {/* circle icon */}
+                  <div className="relative z-10 shrink-0">
+                    <motion.div
+                      whileHover={{ scale: 1.12, boxShadow: "0 0 20px rgba(237,193,104,0.5)" }}
+                      transition={{ duration: 0.25 }}
+                      className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-[#edc168]/40 bg-[#3a1042] shadow-[0_0_0_4px_rgba(237,193,104,0.06)] transition-colors duration-300 group-hover:border-[#edc168]/80 group-hover:bg-[#4a1855] sm:h-16 sm:w-16"
+                    >
+                      <Icon className="h-5 w-5 text-[#edc168] sm:h-6 sm:w-6" />
+                    </motion.div>
+                  </div>
+
+                  {/* content card */}
+                  <div className={`flex-1 rounded-2xl border border-white/[0.08] bg-[#3a1042] p-4 transition-all duration-300 group-hover:border-[#edc168]/25 group-hover:bg-[#441350] group-hover:shadow-[0_8px_32px_-8px_rgba(237,193,104,0.15)] sm:p-5 ${isLast ? "" : "mb-1"}`}>
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <h3 className="text-base font-extrabold text-white sm:text-lg">{c.name}</h3>
+                        <p className="mt-1 text-xs leading-relaxed text-white/50 sm:text-sm">{c.detail}</p>
+                      </div>
+                      {/* percentage badge */}
+                      <span className="shrink-0 rounded-full border border-[#edc168]/30 bg-[#edc168]/10 px-3 py-1 font-display text-base font-extrabold text-[#edc168] sm:text-lg">
+                        {c.pct}%
+                      </span>
+                    </div>
+                    {/* mini progress bar inside card */}
+                    <div className="mt-3 h-1 overflow-hidden rounded-full bg-white/[0.06]">
+                      <motion.div
+                        className="h-full rounded-full bg-gradient-to-r from-[#f8e3a6] to-[#dca23a]"
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${c.pct}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.2 + i * 0.1 }}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
+
+        <Reveal direction="up" className="mt-10 text-center">
+          <p className="mx-auto max-w-sm text-sm italic text-white/40">
+            {scoring.callout.lead}{" "}
+            <span className="font-bold not-italic text-white">{scoring.callout.accent}</span>{" "}
+            {scoring.callout.tail}
+          </p>
+        </Reveal>
       </section>
 
       {/* --------------------------------------------- do & don't --- */}
@@ -709,7 +778,7 @@ export default function Home() {
                         {item.a}
                       </span>
                       <span
-                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors ${
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors sm:h-8 sm:w-8 ${
                           isOpen ? "bg-[#edc168] text-[#3a0f33]" : "bg-white/10 text-white"
                         }`}
                       >
@@ -724,7 +793,7 @@ export default function Home() {
                     className="overflow-hidden"
                   >
                     <p className="px-6 pb-6 text-sm leading-relaxed text-white/65">
-                      The answer is <span className="font-bold text-white">{item.a}</span>.
+                      {item.detail}
                     </p>
                   </motion.div>
                 </div>
@@ -749,19 +818,40 @@ export default function Home() {
             {closing.titleLead} {closing.titleLine2}{" "}
             <span className={GOLD}>{closing.titleAccent}</span>
           </h2>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            {closing.chips.map((chip) => (
-              <span
-                key={chip}
-                className={`rounded-full px-5 py-2.5 text-base font-semibold ${
-                  chip === closing.emberChip
-                    ? GOLD_BTN
-                    : `${CARD} text-white/85`
-                }`}
-              >
-                {chip}
-              </span>
-            ))}
+          <div className="mt-8 flex justify-center">
+            {/* inline container shrinks to exact chips width so line spans chip-to-chip only */}
+            <div className="relative inline-flex flex-wrap items-center gap-3">
+
+              {/* connecting line — desktop only */}
+              <div className="pointer-events-none absolute inset-x-0 top-1/2 hidden -translate-y-1/2 overflow-hidden sm:block">
+                <div className="h-1 rounded-full bg-gradient-to-r from-transparent via-[#edc168]/40 to-transparent" />
+                {!isMobile && (
+                  <motion.div
+                    className="absolute top-0 h-1 w-8 rounded-full"
+                    style={{
+                      background: "linear-gradient(90deg, transparent, #fff5cc, #edc168, #fff5cc, transparent)",
+                      boxShadow: "0 0 12px 4px rgba(237,193,104,0.9), 0 0 24px 8px rgba(237,193,104,0.4)",
+                    }}
+                    animate={{ left: ["0%", "100%"] }}
+                    transition={{ repeat: Infinity, duration: 2.8, ease: "linear" }}
+                  />
+                )}
+              </div>
+
+              {closing.chips.map((chip) => (
+                <span
+                  key={chip}
+                  className={`relative z-10 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-base font-semibold ${
+                    chip === closing.emberChip
+                      ? GOLD_BTN
+                      : `${CARD} text-white/85`
+                  }`}
+                >
+                  {chip === closing.emberChip && <Trophy className="h-4 w-4" />}
+                  {chip}
+                </span>
+              ))}
+            </div>
           </div>
           <p className={`mt-10 font-display text-2xl font-extrabold sm:text-4xl ${GOLD}`}>
             {closing.hashtag}
@@ -774,11 +864,11 @@ export default function Home() {
         {/* large watermark text */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 select-none overflow-hidden"
+          className="pointer-events-none absolute inset-x-0 bottom-8 select-none overflow-hidden"
         >
           <p
             className="whitespace-nowrap text-center font-display font-extrabold leading-none tracking-tight text-white/[0.06]"
-            style={{ fontSize: "clamp(6rem, 22vw, 18rem)" }}
+            style={{ fontSize: "clamp(3.5rem, 18vw, 18rem)" }}
           >
             Tutedude
           </p>
@@ -813,16 +903,18 @@ export default function Home() {
             </h4>
             <div className="flex gap-3">
               {([
-                { label: "LinkedIn", path: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" },
-                { label: "Instagram", path: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01 M7.55 3h8.9A4.55 4.55 0 0 1 21 7.55v8.9A4.55 4.55 0 0 1 16.45 21H7.55A4.55 4.55 0 0 1 3 16.45V7.55A4.55 4.55 0 0 1 7.55 3z" },
-                { label: "Facebook", path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
-                { label: "YouTube",  path: "M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" },
-              ] as const).map(({ label, path }) => (
+                { label: "LinkedIn",  href: "https://in.linkedin.com/company/tutedudeofficial",  path: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" },
+                { label: "Instagram", href: "https://www.instagram.com/tutedudeofficial/",       path: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01 M7.55 3h8.9A4.55 4.55 0 0 1 21 7.55v8.9A4.55 4.55 0 0 1 16.45 21H7.55A4.55 4.55 0 0 1 3 16.45V7.55A4.55 4.55 0 0 1 7.55 3z" },
+                { label: "Facebook",  href: "https://facebook.com/tutedude.officials",            path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
+                { label: "YouTube",   href: "https://www.youtube.com/@tutedudeofficial",          path: "M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" },
+              ] as const).map(({ label, href, path }) => (
                 <a
                   key={label}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
-                  className={`flex h-10 w-10 items-center justify-center rounded-xl transition-transform hover:-translate-y-1 ${GOLD_BTN}`}
+                  className={`flex h-11 w-11 items-center justify-center rounded-xl transition-transform hover:-translate-y-1 ${GOLD_BTN}`}
                 >
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
                     <path d={path} />

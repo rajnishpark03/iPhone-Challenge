@@ -19,10 +19,6 @@ import {
   Play,
   Plus,
   Minus,
-  Linkedin,
-  Instagram,
-  Facebook,
-  Youtube,
   Mail,
   Phone,
   MapPin,
@@ -42,7 +38,7 @@ const GOLD =
 const GOLD_BTN =
   "bg-gradient-to-b from-[#f7dd97] to-[#dca23a] text-[#3a0f33] shadow-[0_10px_30px_-8px_rgba(231,170,58,0.6)]";
 const CARD =
-  "rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-md";
+  "rounded-3xl border border-white/10 bg-[#1a0825]";
 
 /* ---------------------------------------------------------------- content --- */
 const stats = [
@@ -232,7 +228,7 @@ export default function BuildathonPage() {
       <section className="relative mx-auto flex max-w-5xl flex-col items-center px-5 pb-28 pt-16 text-center sm:px-8 sm:pt-24">
 
         {/* perspective diamond stage */}
-        <div className="pointer-events-none absolute left-1/2 top-0 -z-0 w-[min(96vw,700px)] -translate-x-1/2">
+        <div className="pointer-events-none absolute left-1/2 top-0 -z-0 w-[min(90vw,700px)] -translate-x-1/2">
           <svg viewBox="0 0 700 580" className="h-auto w-full" aria-hidden>
             <defs>
               <linearGradient id="cyanStroke" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -245,14 +241,17 @@ export default function BuildathonPage() {
               </filter>
             </defs>
 
+            {/* solid bg fill — blocks grid behind the box */}
+            <polygon points="350,68 636,218 636,448 350,530 64,448 64,218" fill="rgba(43,10,48,0.88)" stroke="none" />
+
             {/* right wall */}
-            <polygon points="350,68 636,218 636,448 350,448" fill="rgba(34,211,238,0.035)" stroke="url(#cyanStroke)" strokeWidth="1.4" filter="url(#diamondGlow)" />
+            <polygon points="350,68 636,218 636,448 350,448" fill="rgba(34,211,238,0.04)" stroke="url(#cyanStroke)" strokeWidth="1.8" filter="url(#diamondGlow)" />
             {/* left wall */}
-            <polygon points="350,68 64,218 64,448 350,448" fill="rgba(129,140,248,0.03)" stroke="url(#cyanStroke)" strokeWidth="1.4" filter="url(#diamondGlow)" />
+            <polygon points="350,68 64,218 64,448 350,448" fill="rgba(129,140,248,0.04)" stroke="url(#cyanStroke)" strokeWidth="1.8" filter="url(#diamondGlow)" />
             {/* top lid */}
-            <polygon points="350,68 636,218 350,368 64,218" fill="rgba(34,211,238,0.045)" stroke="url(#cyanStroke)" strokeWidth="1.8" filter="url(#diamondGlow)" />
+            <polygon points="350,68 636,218 350,368 64,218" fill="rgba(34,211,238,0.06)" stroke="url(#cyanStroke)" strokeWidth="2.2" filter="url(#diamondGlow)" />
             {/* bottom base */}
-            <polygon points="350,448 636,448 350,530 64,448" fill="rgba(34,211,238,0.04)" stroke="url(#cyanStroke)" strokeWidth="1.4" filter="url(#diamondGlow)" />
+            <polygon points="350,448 636,448 350,530 64,448" fill="rgba(34,211,238,0.05)" stroke="url(#cyanStroke)" strokeWidth="1.8" filter="url(#diamondGlow)" />
 
             {/* lid grid horizontals */}
             {[0.3, 0.6].map((t, i) => (
@@ -364,7 +363,7 @@ export default function BuildathonPage() {
           </p>
         </Reveal>
 
-        <RevealGroup className="mt-14 grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5" stagger={0.09}>
+        <RevealGroup className="mt-14 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-6 lg:grid-cols-5 lg:gap-8" stagger={0.09}>
           {stats.map((s) => (
             <StatChip key={s.label} icon={s.icon} label={s.label} />
           ))}
@@ -600,7 +599,7 @@ export default function BuildathonPage() {
                     aria-expanded={isOpen}
                   >
                     <span className="text-base font-semibold sm:text-lg">{f.q}</span>
-                    <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${isOpen ? "bg-[#edc168] text-[#3a0f33] rotate-0" : "bg-white/10 text-white"}`}>
+                    <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-all duration-300 sm:h-8 sm:w-8 ${isOpen ? "bg-[#edc168] text-[#3a0f33] rotate-0" : "bg-white/10 text-white"}`}>
                       {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
                     </span>
                   </button>
@@ -683,10 +682,15 @@ export default function BuildathonPage() {
           <div>
             <h4 className="mb-4 text-sm font-bold uppercase tracking-wider text-white/70">Social Links</h4>
             <div className="flex gap-3">
-              {[Linkedin, Instagram, Facebook, Youtube].map((Icon, i) => (
-                <a key={i} href="#" aria-label="Social link"
-                  className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all hover:-translate-y-1 hover:shadow-[0_8px_20px_-4px_rgba(231,170,58,0.5)] ${GOLD_BTN}`}>
-                  <Icon className="h-4 w-4" />
+              {[
+                { label: "LinkedIn",  href: "https://in.linkedin.com/company/tutedudeofficial", path: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" },
+                { label: "Instagram", href: "https://www.instagram.com/tutedudeofficial/",      path: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01 M7.55 3h8.9A4.55 4.55 0 0 1 21 7.55v8.9A4.55 4.55 0 0 1 16.45 21H7.55A4.55 4.55 0 0 1 3 16.45V7.55A4.55 4.55 0 0 1 7.55 3z" },
+                { label: "Facebook",  href: "https://facebook.com/tutedude.officials",           path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
+                { label: "YouTube",   href: "https://www.youtube.com/@tutedudeofficial",         path: "M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" },
+              ].map((s) => (
+                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
+                  className={`flex h-11 w-11 items-center justify-center rounded-xl transition-all hover:-translate-y-1 hover:shadow-[0_8px_20px_-4px_rgba(231,170,58,0.5)] ${GOLD_BTN}`}>
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d={s.path} /></svg>
                 </a>
               ))}
             </div>

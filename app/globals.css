@@ -118,6 +118,25 @@
     overflow-x: hidden;
   }
 
+  /* Remove 300 ms tap delay on all interactive elements on iOS/Android */
+  button,
+  a,
+  [role="button"],
+  input,
+  select,
+  textarea,
+  label {
+    touch-action: manipulation;
+  }
+
+  /* Safe-area insets for iPhones with notch / Dynamic Island */
+  header {
+    padding-top: env(safe-area-inset-top);
+  }
+  footer {
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+
   /* Hide native cursor only on devices that have a real pointer AND
      only once the custom cursor is actually mounted. If the custom
      cursor never activates, the native cursor always remains. */

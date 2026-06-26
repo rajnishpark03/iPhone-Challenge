@@ -203,8 +203,13 @@ export default function CustomCursor() {
         alt=""
         aria-hidden
         draggable={false}
-        className="pointer-events-none fixed left-0 top-0 z-[9999] opacity-0 drop-shadow-[0_6px_10px_rgba(0,0,0,0.4)]"
-        style={{ width: CURSOR_W, height: "auto", willChange: "transform" }}
+        className="pointer-events-none fixed left-0 top-0 z-[9999] opacity-0"
+        style={{
+          width: CURSOR_W,
+          height: "auto",
+          willChange: "transform",
+          filter: "sepia(1) saturate(4) hue-rotate(5deg) brightness(1.15) drop-shadow(0 6px 10px rgba(0,0,0,0.4))",
+        }}
       />
       {/* Crisp dot at the exact pointer position */}
       <div
