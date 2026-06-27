@@ -102,7 +102,7 @@ export default function SectionPrizes() {
                 className="relative isolate shrink-0"
               >
                 {/* static light behind phone */}
-                <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10" style={{ transform: "translate(-50%, -50%)", width: "160%", height: "140%", borderRadius: "50%", background: "radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.8) 0%, rgba(255,240,180,0.4) 42%, transparent 70%)", filter: "blur(28px)" }} />
+                <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10" style={{ transform: "translate(-50%, -50%)", width: "160%", height: "140%", borderRadius: "50%", background: "radial-gradient(ellipse at 50% 50%, rgba(237,193,104,0.55) 0%, rgba(180,60,220,0.22) 45%, transparent 72%)", filter: "blur(36px)" }} />
                 <Image
                   src="/iphone-17-prize.webp"
                   alt="iPhone 17"
