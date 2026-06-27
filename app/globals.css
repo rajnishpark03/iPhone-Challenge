@@ -436,9 +436,9 @@
    components (matchMedia max-width:767px). Desktop is intentionally untouched.
 --------------------------------------------------------------------------- */
 @media (max-width: 767px) {
-  *:not(.star-twinkle):not(.iphone-glow),
-  *:not(.star-twinkle):not(.iphone-glow)::before,
-  *:not(.star-twinkle):not(.iphone-glow)::after {
+  *:not(.star-twinkle):not(.iphone-rays):not(.iphone-centre),
+  *:not(.star-twinkle):not(.iphone-rays):not(.iphone-centre)::before,
+  *:not(.star-twinkle):not(.iphone-rays):not(.iphone-centre)::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     animation-delay: 0ms !important;
@@ -466,13 +466,22 @@
   transform-origin: center;
 }
 
-/* ── iPhone glow pulse — CSS-only, behind both phone images ── */
-@keyframes iphone-glow-pulse {
-  0%, 100% { opacity: 0.45; transform: scale(0.88); }
-  50%       { opacity: 0.82; transform: scale(1.12); }
+/* ── iPhone shining effect — rotating rays + pulsing centre glow ── */
+@keyframes iphone-rays-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
-.iphone-glow {
-  animation: iphone-glow-pulse 3.5s ease-in-out infinite;
+@keyframes iphone-centre-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(0.9); }
+  50%       { opacity: 1;    transform: scale(1.1); }
+}
+.iphone-rays {
+  animation: iphone-rays-spin 14s linear infinite;
+  will-change: transform;
+  transform-origin: center;
+}
+.iphone-centre {
+  animation: iphone-centre-pulse 3s ease-in-out infinite;
   will-change: opacity, transform;
   transform-origin: center;
 }
