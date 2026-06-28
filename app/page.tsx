@@ -261,10 +261,20 @@ export default function Home() {
               Other Links
             </h4>
             <ul className="space-y-2 text-sm text-white/55">
-              {["About us", "Contact us", "Privacy Policy", "Terms of Use"].map((l) => (
-                <li key={l}>
-                  <a href="#" className="transition-colors hover:text-[#edc168]">
-                    {l}
+              {([
+                { label: "About Us",        href: "https://tutedude.com/about" },
+                { label: "Contact Us",      href: "tel:+917999749959" },
+                { label: "Privacy Policy",  href: "https://tutedude.com/privacy" },
+                { label: "Terms of Use",    href: "https://tutedude.com/terms-condition" },
+              ] as const).map(({ label, href }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target={href.startsWith("http") ? "_blank" : undefined}
+                    rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="transition-colors hover:text-[#edc168]"
+                  >
+                    {label}
                   </a>
                 </li>
               ))}
@@ -307,7 +317,10 @@ export default function Home() {
                 <Mail className="h-4 w-4 text-[#edc168]" /> support@tutedude.com
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-[#edc168]" /> +91 7999749959
+                <Phone className="h-4 w-4 text-[#edc168]" />
+                <a href="tel:+917999749959" className="transition-colors hover:text-[#edc168]">
+                  +91 7999749959
+                </a>
               </li>
             </ul>
           </div>
