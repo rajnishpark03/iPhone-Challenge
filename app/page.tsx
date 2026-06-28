@@ -149,7 +149,7 @@ export default function Home() {
                   <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10" style={{ transform: "translate(-50%, -50%)", width: "160%", height: "140%", borderRadius: "50%", background: "radial-gradient(ellipse at 50% 50%, rgba(237,193,104,0.55) 0%, rgba(180,60,220,0.22) 45%, transparent 72%)", filter: "blur(36px)" }} />
                   <Image src="/iphone-17-prize.webp" alt="iPhone 17" width={300} height={600} priority fetchPriority="high" className="h-[200px] max-w-[90vw] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] sm:h-[300px] lg:h-[420px]" />
                   <div className="absolute bottom-[10%] left-1/2 w-28 -translate-x-1/2 rounded-xl border-2 border-[#edc168] bg-[#2b0a30] p-2 shadow-[0_0_24px_rgba(237,193,104,0.35)] sm:w-40 sm:-rotate-[5deg] sm:rounded-2xl sm:p-3 lg:w-48">
-                    <p className="text-[7px] font-bold uppercase tracking-widest text-[#edc168]/60 sm:text-[9px]">Grand Prize Worth</p>
+                    <p className="text-[7px] font-bold uppercase tracking-widest text-[#edc168]/80 sm:text-[9px]">Grand Prize Worth</p>
                     <p className={`mt-0.5 font-display text-lg font-extrabold leading-none sm:text-2xl lg:text-3xl ${GOLD}`}>₹82,900</p>
                     <div className="my-1 h-px bg-[#edc168]/20 sm:my-2" />
                     <p className="text-[8px] font-bold uppercase tracking-wider text-white/55 sm:text-[10px]">🎉 Win for FREE</p>
@@ -188,7 +188,7 @@ export default function Home() {
               <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#edc168]/30 bg-[#edc168]/10 text-[#edc168] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110">
                 <Icon className="h-6 w-6" />
               </span>
-              <span className="text-[11px] uppercase tracking-wider text-white/45">
+              <span className="text-[11px] uppercase tracking-wider text-white/60">
                 {label}
               </span>
               <span className="-mt-1.5 max-w-[11rem] text-sm font-semibold leading-snug text-white/90">
@@ -232,7 +232,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 border-b border-white/[0.06] px-5 pb-10 pt-12 text-center sm:px-8">
           <Image src="/tutedudelogo.png" alt="Tutedude" width={44} height={44} className="opacity-90" />
           <span className="font-display text-xl font-extrabold tracking-tight text-white">Tutedude</span>
-          <p className="max-w-xs text-xs text-white/40">Learn · Create · Share · Win — Tutedude iPhone Challenge 2026</p>
+          <p className="max-w-xs text-xs text-white/55">Learn · Create · Share · Win — Tutedude iPhone Challenge 2026</p>
         </div>
 
         <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">

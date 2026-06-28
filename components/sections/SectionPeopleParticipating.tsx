@@ -137,7 +137,7 @@ export default function SectionPeopleParticipating() {
       </div>
 
       {/* swipe hint — mobile only */}
-      <p className="mt-3 text-center text-xs text-white/35 sm:hidden">
+      <p className="mt-3 text-center text-xs text-white/55 sm:hidden">
         ← swipe to see more →
       </p>
 

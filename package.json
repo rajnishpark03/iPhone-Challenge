@@ -26,6 +26,12 @@
     "tailwind-merge": "^2.6.0",
     "three": "^0.172.0"
   },
+  "browserslist": [
+    "chrome >= 93",
+    "firefox >= 92",
+    "safari >= 15",
+    "edge >= 93"
+  ],
   "devDependencies": {
     "@types/node": "^22.10.5",
     "@types/react": "^19.0.4",

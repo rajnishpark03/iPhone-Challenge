@@ -7,7 +7,7 @@ import type { LucideIcon } from "lucide-react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { prizes } from "@/lib/content";
 import { useIsMobile } from "@/lib/useIsMobile";
-import { GOLD, GOLD_BTN, CARD } from "@/lib/tokens";
+import { GOLD, CARD } from "@/lib/tokens";
 
 const prizeIcons: LucideIcon[] = [Sparkles, Star];
 
@@ -113,7 +113,7 @@ export default function SectionPrizes() {
                 />
                 {/* prize chip badge */}
                 <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-max -rotate-[6deg] rounded-lg border border-[#edc168]/40 bg-[#2b0a30]/90 px-2 py-1 shadow-[0_4px_12px_rgba(237,193,104,0.18)] backdrop-blur-sm">
-                  <p className="text-[6px] font-bold uppercase tracking-[0.14em] text-[#edc168]/60">
+                  <p className="text-[6px] font-bold uppercase tracking-[0.14em] text-[#edc168]/80">
                     Grand Prize Worth
                   </p>
                   <p className={`font-display text-xs font-extrabold leading-tight ${GOLD}`}>
