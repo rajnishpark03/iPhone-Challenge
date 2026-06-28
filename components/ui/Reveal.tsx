@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion, useInView, type Variants } from "framer-motion";
+import { m as motion, useInView, type Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/lib/useIsMobile";
 

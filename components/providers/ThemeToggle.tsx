@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { Sun, Moon, MonitorSmartphone } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m as motion, AnimatePresence } from "framer-motion";
 
 type Mode = "system" | "light" | "dark";
 const STORAGE_KEY = "theme-mode";

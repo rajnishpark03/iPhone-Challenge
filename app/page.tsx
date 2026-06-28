@@ -2,7 +2,7 @@
 
 import { useIsMobile } from "@/lib/useIsMobile";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import {
   Calendar,
   Trophy,
@@ -117,7 +117,7 @@ export default function Home() {
                 <span className={`block pb-2 font-display text-[clamp(2.8rem,12vw,6.5rem)] font-extrabold leading-[0.95] tracking-tight ${GOLD}`}>iPhone<br />Challenge<sup className="align-super text-[0.28em] font-bold">™</sup></span>
               </h1>
             ) : (
-              <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
+              <motion.h1 initial={{ y: 24 }} animate={{ y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
                 <span className="block font-display text-[clamp(1.1rem,4vw,2.2rem)] font-extrabold leading-tight tracking-tight text-white/80">{meta.brand}</span>
                 <span className={`block pb-2 font-display text-[clamp(2.8rem,12vw,6.5rem)] font-extrabold leading-[0.95] tracking-tight ${GOLD}`}>iPhone<br />Challenge<sup className="align-super text-[0.28em] font-bold">™</sup></span>
               </motion.h1>
@@ -128,7 +128,7 @@ export default function Home() {
                 Create and post reels about your learning journey with Tutedude and stand a chance to win a Brand New iPhone 17.
               </p>
             ) : (
-              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.7 }} className="mt-4 max-w-xs text-sm font-medium leading-relaxed text-white/70 sm:max-w-md sm:text-base">
+              <motion.p initial={{ y: 20 }} animate={{ y: 0 }} transition={{ delay: 0.25, duration: 0.7 }} className="mt-4 max-w-xs text-sm font-medium leading-relaxed text-white/70 sm:max-w-md sm:text-base">
                 Create and post reels about your learning journey with Tutedude and stand a chance to win a Brand New iPhone 17.
               </motion.p>
             )}
@@ -138,7 +138,7 @@ export default function Home() {
                 Register Now for Free!
               </button>
             ) : (
-              <motion.button initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 0.5 }} whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} className={`mt-6 rounded-full px-6 py-3 text-sm font-bold sm:mt-8 sm:px-10 sm:py-4 sm:text-base ${GOLD_BTN}`}>
+              <motion.button whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} className={`mt-6 rounded-full px-6 py-3 text-sm font-bold sm:mt-8 sm:px-10 sm:py-4 sm:text-base ${GOLD_BTN}`}>
                 Register Now for Free!
               </motion.button>
             )}
@@ -165,7 +165,7 @@ export default function Home() {
               const inner = (
                 <>
                   <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10" style={{ transform: "translate(-50%, -50%)", width: "160%", height: "140%", borderRadius: "50%", background: "radial-gradient(ellipse at 50% 50%, rgba(237,193,104,0.55) 0%, rgba(180,60,220,0.22) 45%, transparent 72%)", filter: "blur(36px)" }} />
-                  <Image src="/iphone-17-prize.webp" alt="iPhone 17" width={300} height={600} className="h-[200px] max-w-[90vw] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] sm:h-[300px] lg:h-[420px]" />
+                  <Image src="/iphone-17-prize.webp" alt="iPhone 17" width={300} height={600} priority className="h-[200px] max-w-[90vw] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] sm:h-[300px] lg:h-[420px]" />
                   <div className="absolute bottom-[10%] left-1/2 w-28 -translate-x-1/2 rounded-xl border-2 border-[#edc168] bg-[#2b0a30] p-2 shadow-[0_0_24px_rgba(237,193,104,0.35)] sm:w-40 sm:-rotate-[5deg] sm:rounded-2xl sm:p-3 lg:w-48">
                     <p className="text-[7px] font-bold uppercase tracking-widest text-[#edc168]/60 sm:text-[9px]">Grand Prize Worth</p>
                     <p className={`mt-0.5 font-display text-lg font-extrabold leading-none sm:text-2xl lg:text-3xl ${GOLD}`}>₹82,900</p>

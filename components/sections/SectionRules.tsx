@@ -2,7 +2,7 @@
 
 import { Check, X, Eye, Heart, Users, Repeat, Bot, TrendingUp, AlertTriangle } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { useIsMobile } from "@/lib/useIsMobile";
 import { fairPlay } from "@/lib/content";

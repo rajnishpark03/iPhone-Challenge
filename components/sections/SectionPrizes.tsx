@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { Sparkles, Star, Award, Crown } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";

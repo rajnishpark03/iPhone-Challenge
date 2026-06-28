@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { m as motion, useMotionValue, useSpring } from "framer-motion";
 
 /**
  * Wrap any element to give it a magnetic pull toward the cursor.

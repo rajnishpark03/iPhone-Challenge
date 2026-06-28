@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { useIsMobile } from "@/lib/useIsMobile";

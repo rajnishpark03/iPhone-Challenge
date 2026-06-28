@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { Trophy, GraduationCap, Clapperboard, Share2 } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { useIsMobile } from "@/lib/useIsMobile";

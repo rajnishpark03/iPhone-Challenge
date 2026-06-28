@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m as motion } from "framer-motion";
 import { UserPlus, Film, Smartphone, AtSign, Link2, PartyPopper } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
