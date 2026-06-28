@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
-  Check,
   Trophy,
   Gift,
   Clock,
@@ -13,12 +11,6 @@ import {
   Palette,
   Megaphone,
   Lightbulb,
-  FileText,
-  Briefcase,
-  Headphones,
-  Play,
-  Plus,
-  Minus,
   Mail,
   Phone,
   MapPin,
@@ -107,52 +99,9 @@ const audience = [
   },
 ];
 
-const internship = [
-  {
-    icon: FileText,
-    title: "Resume Building",
-    desc: "Elevate your career with our personalised resume-building feature.",
-  },
-  {
-    icon: Briefcase,
-    title: "Job Opportunities",
-    desc: "Access exclusive job opportunities shared directly with you.",
-  },
-  {
-    icon: Headphones,
-    title: "Career Support",
-    desc: "Benefit from our guidance and tips to sharpen your job search and prospects.",
-  },
-];
-
-const reviews = [
-  { name: "Hard Branots", role: "Student", grad: "from-[#7c3aed] to-[#db2777]" },
-  { name: "Hely Branots", role: "Student", grad: "from-[#2563eb] to-[#06b6d4]" },
-  { name: "Anny Roy",     role: "Student", grad: "from-[#f59e0b] to-[#ef4444]" },
-  { name: "Karan Mehta",  role: "Student", grad: "from-[#10b981] to-[#4f46e5]" },
-];
-
-const faqs = [
-  {
-    q: "Why should I opt for Tutedude Plus?",
-    a: "Tutedude provides professionally curated content by Indian instructors along with live doubt-solving and personal one-to-one mentorship you won't find anywhere else. And amazingly, you learn for free if you're enrolled under the 100% Refund offer.",
-  },
-  {
-    q: "What is the validity of the courses and when can I watch them?",
-    a: "Your courses come with lifetime validity — watch them anytime, at your own pace, as many times as you like.",
-  },
-  {
-    q: "Will my course validity expire after I receive the 100% Refund amount?",
-    a: "No. Even after you receive your 100% refund, your course access stays active so you can keep learning.",
-  },
-  {
-    q: "Why should I opt for Tutedude?",
-    a: "Industry-grade content, real mentorship, project-based learning, and placement support — all designed to take you from learner to professional.",
-  },
-];
 
 /* ---------------------------------------------------------------- bits --- */
-function StatChip({ icon: Icon, label }: { icon: typeof Check; label: string }) {
+function StatChip({ icon: Icon, label }: { icon: typeof Trophy; label: string }) {
   return (
     <RevealItem className="group flex flex-col items-center gap-3 text-center">
       <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#edc168]/30 bg-[#edc168]/10 text-[#edc168] transition-all duration-300 group-hover:-translate-y-1.5 group-hover:scale-110 group-hover:border-[#edc168]/60 group-hover:bg-[#edc168]/20">
@@ -177,8 +126,6 @@ function PhotoCard({ grad, children }: { grad: string; children?: React.ReactNod
 
 /* ---------------------------------------------------------------- page --- */
 export default function BuildathonPage() {
-  const [open, setOpen] = useState<number | null>(0);
-
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#150920] font-sans text-white">
 
@@ -494,130 +441,6 @@ export default function BuildathonPage() {
         </RevealGroup>
       </section>
 
-      {/* ── internship ────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-5xl px-5 py-20 text-center sm:px-8">
-        <Reveal direction="up">
-          <h2 className="font-display text-[clamp(1.8rem,4.5vw,2.9rem)] font-extrabold tracking-tight">
-            <span className={GOLD}>Internship Assistance</span>{" "}
-            <span className="text-white">with Resume Building in One Place</span>
-          </h2>
-          <p className="mt-4 text-base text-white/55">
-            We don&apos;t just help you build — we help you get hired.
-          </p>
-        </Reveal>
-
-        <RevealGroup className="mt-12 grid gap-6 sm:grid-cols-3" stagger={0.1}>
-          {internship.map((it) => (
-            <RevealItem key={it.title}>
-              <div className={`${CARD} group h-full p-7 text-left transition-all duration-300 hover:-translate-y-1.5 hover:border-[#edc168]/25`}>
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#edc168]/30 bg-[#edc168]/10 text-[#edc168] transition-all group-hover:scale-110 group-hover:bg-[#edc168]/20">
-                  <it.icon className="h-6 w-6" />
-                </span>
-                <h3 className="mt-5 text-xl font-bold">{it.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/60">{it.desc}</p>
-              </div>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </section>
-
-      {/* ── tutedude plus ─────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-5xl px-5 py-10 sm:px-8">
-        <Reveal direction="scale">
-          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#f8e3a6] via-[#edc168] to-[#d99a2b] p-8 text-[#3a0f33] shadow-[0_30px_80px_-20px_rgba(231,170,58,0.55)] sm:p-12">
-            <div className="absolute -right-8 -top-8 h-44 w-44 rounded-full bg-white/25 blur-2xl" />
-            <div className="absolute -bottom-8 left-8 h-32 w-32 rounded-full bg-white/15 blur-xl" />
-            <div className="relative z-10 flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left sm:gap-10">
-              <div>
-                <span className="inline-flex items-center gap-2 rounded-full bg-[#3a0f33]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider">
-                  <Crown className="h-4 w-4" /> Tutedude Plus
-                </span>
-                <h3 className="mt-4 font-display text-2xl font-extrabold sm:text-3xl">
-                  What are you waiting for?<br className="hidden sm:block" /> Get Tutedude Plus
-                </h3>
-                <p className="mt-2 text-sm text-[#3a0f33]/70">
-                  Learn for free under the 100% Refund offer. Unlock all courses, live sessions & mentorship.
-                </p>
-              </div>
-              <div className="shrink-0 flex flex-col items-center gap-3">
-                <button className="rounded-full bg-[#3a0f33] px-8 py-3.5 text-sm font-bold text-white shadow-[0_8px_24px_-6px_rgba(58,15,51,0.4)] transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_32px_-6px_rgba(58,15,51,0.5)]">
-                  Start Subscription
-                </button>
-                <p className="text-lg font-extrabold">
-                  ₹1,200<span className="text-sm font-semibold">/year</span>{" "}
-                  <span className="text-sm font-medium text-[#3a0f33]/50 line-through">₹10,000/year</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* ── video reviews ─────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8">
-        <Reveal direction="up">
-          <h2 className="text-center font-display text-[clamp(1.9rem,4.5vw,3rem)] font-extrabold tracking-tight">
-            Video Reviews from <span className={GOLD}>Our Students!</span>
-          </h2>
-          <p className="mt-3 text-center text-base text-white/50">Real stories. Real impact.</p>
-        </Reveal>
-        <RevealGroup className="mt-12 grid grid-cols-2 gap-5 lg:grid-cols-4" stagger={0.08}>
-          {reviews.map((r) => (
-            <RevealItem key={r.name}>
-              <div className="group cursor-pointer">
-                <div className={`relative aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br ${r.grad} ring-0 transition-all duration-300 group-hover:ring-2 group-hover:ring-[#edc168]/40 group-hover:-translate-y-1.5`}>
-                  <div className="absolute inset-0 bg-[radial-gradient(120%_100%_at_50%_0%,rgba(255,255,255,0.22),transparent_60%)]" />
-                  <div className="absolute inset-0 opacity-20 [background-image:radial-gradient(rgba(255,255,255,0.6)_1px,transparent_1px)] [background-size:14px_14px]" />
-                  <span className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#3a0f33] shadow-lg transition-transform duration-300 group-hover:scale-115">
-                    <Play className="h-5 w-5 translate-x-0.5 fill-current" />
-                  </span>
-                </div>
-                <p className="mt-3 text-center text-base font-bold">{r.name}</p>
-                <p className="text-center text-sm text-[#edc168]">{r.role}</p>
-              </div>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </section>
-
-      {/* ── faq ───────────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-3xl px-5 py-20 sm:px-8">
-        <Reveal direction="up">
-          <h2 className="text-center font-display text-[clamp(1.9rem,4.5vw,3rem)] font-extrabold tracking-tight">
-            Frequently Asked <span className={GOLD}>Questions</span>
-          </h2>
-        </Reveal>
-        <div className="mt-10 space-y-3">
-          {faqs.map((f, i) => {
-            const isOpen = open === i;
-            return (
-              <Reveal key={f.q} direction="up" delay={i * 0.05}>
-                <div className={`overflow-hidden rounded-2xl border transition-colors duration-300 ${isOpen ? "border-[#edc168]/25 bg-white/[0.06]" : "border-white/8 bg-white/[0.03]"} backdrop-blur-md`}>
-                  <button
-                    onClick={() => setOpen(isOpen ? null : i)}
-                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
-                    aria-expanded={isOpen}
-                  >
-                    <span className="text-base font-semibold sm:text-lg">{f.q}</span>
-                    <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-all duration-300 sm:h-8 sm:w-8 ${isOpen ? "bg-[#edc168] text-[#3a0f33] rotate-0" : "bg-white/10 text-white"}`}>
-                      {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-                    </span>
-                  </button>
-                  <motion.div
-                    initial={false}
-                    animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
-                    transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <p className="px-6 pb-6 text-sm leading-relaxed text-white/65">{f.a}</p>
-                  </motion.div>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
-      </section>
-
       {/* ── final cta ─────────────────────────────────────────────────── */}
       <section className="mx-auto max-w-4xl px-5 py-20 text-center sm:px-8">
         <Reveal direction="up">
@@ -671,10 +494,10 @@ export default function BuildathonPage() {
             <h4 className="mb-4 text-sm font-bold uppercase tracking-wider text-white/70">Contact Us</h4>
             <ul className="space-y-3 text-sm text-white/50">
               <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-[#edc168]" /> support@tutedude.com</li>
-              <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-[#edc168]" /> +91 79888 00474</li>
+              <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-[#edc168]" /> +91 7999749959</li>
               <li className="flex items-start gap-2">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#edc168]" />
-                Suncity Success Tower, Sector 65, Gurugram, Haryana, 122005
+                1st floor, AltF, Orchid Business Park, Central Park II, Sector 48, Gurugram, Haryana 122018
               </li>
             </ul>
           </div>
