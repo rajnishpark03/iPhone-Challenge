@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/rajnishpark03/iPhone-Challenge/main/public/iphone-17-prize.webp" alt="iPhone 17 Prize" width="320" />
 
-# TuteDude Creator's Handbook — iPhone Challenge
+# TuteDude iPhone Challenge
 
 **A cinematic web experience built around TuteDude's official challenge handbook.**
 Every section is reimagined with animations, 3D, and a dark futuristic UI — the content stays true, the presentation goes all out.
