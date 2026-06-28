@@ -26,12 +26,59 @@ import SectionRules from "@/components/sections/SectionRules";
 import SectionFAQ from "@/components/sections/SectionFAQ";
 import SectionClosingCTA from "@/components/sections/SectionClosingCTA";
 
+/* ---- JSON-LD structured data for SEO / AEO ---- */
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://tutedude.com/#org",
+      name: "Tutedude",
+      url: "https://tutedude.com",
+      logo: "https://tutedude.com/tutedudelogo.png",
+      sameAs: ["https://www.instagram.com/tutedudeofficial/"],
+      contactPoint: { "@type": "ContactPoint", telephone: "+91-7999749959", contactType: "customer support", email: "support@tutedude.com" },
+    },
+    {
+      "@type": "Event",
+      name: "Tutedude iPhone Challenge 2025",
+      description: "Create Instagram Reels about your TuteDude learning journey and win an iPhone 17 worth ₹82,900. Free to enter for all enrolled TuteDude students.",
+      startDate: "2025-07-01",
+      endDate: "2025-07-31",
+      eventStatus: "https://schema.org/EventScheduled",
+      eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
+      location: { "@type": "VirtualLocation", url: "https://tutedude.com" },
+      organizer: { "@id": "https://tutedude.com/#org" },
+      offers: { "@type": "Offer", price: "0", priceCurrency: "INR", availability: "https://schema.org/InStock", description: "Free entry for all enrolled TuteDude learners" },
+      prize: "iPhone 17 worth ₹82,900",
+      url: "https://tutedude.com",
+      image: "https://tutedude.com/og-image.png",
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        { "@type": "Question", name: "What kind of reels can I create?", acceptedAnswer: { "@type": "Answer", text: "Any format that showcases your TuteDude learning journey — projects, tips, progress updates, tutorials, AI videos, or relatable learning content." } },
+        { "@type": "Question", name: "Can I use AI to create my reels?", acceptedAnswer: { "@type": "Answer", text: "Yes. AI-generated videos, avatars, voiceovers, and creative AI tools are allowed as long as the content is original." } },
+        { "@type": "Question", name: "Do I need to show my face?", acceptedAnswer: { "@type": "Answer", text: "No. Faceless videos, screen recordings, voiceovers, and AI-generated content are all accepted." } },
+        { "@type": "Question", name: "Do I need professional equipment?", acceptedAnswer: { "@type": "Answer", text: "No. A smartphone and your creativity are all you need." } },
+        { "@type": "Question", name: "How will the winner be selected?", acceptedAnswer: { "@type": "Answer", text: "Winners are chosen based on creativity, content quality, relevance to the challenge, and overall performance of the reel." } },
+        { "@type": "Question", name: "Can I participate if my account has very few followers?", acceptedAnswer: { "@type": "Answer", text: "Absolutely. Your creativity matters far more than your follower count." } },
+        { "@type": "Question", name: "Can I post more than 1 reel?", acceptedAnswer: { "@type": "Answer", text: "Yes. Post multiple reels throughout the challenge. Make sure you submit each one on the dashboard." } },
+        { "@type": "Question", name: "What is the prize for winning?", acceptedAnswer: { "@type": "Answer", text: "The grand prize is an iPhone 17 worth ₹82,900. Additional prizes include course vouchers and TuteDude merchandise." } },
+        { "@type": "Question", name: "When does the Tutedude iPhone Challenge start?", acceptedAnswer: { "@type": "Answer", text: "The challenge runs from July 1 to July 31, 2025. All reels must be posted on Instagram during this period." } },
+        { "@type": "Question", name: "Who can participate in the Tutedude Instagram challenge?", acceptedAnswer: { "@type": "Answer", text: "Any enrolled TuteDude student can participate. It is free to enter and open to learners of all courses." } },
+      ],
+    },
+  ],
+};
+
 /* ---------------------------------------------------------------- page --- */
 export default function Home() {
   const isMobile = useIsMobile();
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#2b0a30] font-sans text-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {/* fixed background: gradient + grid + glows */}
       <div className="pointer-events-none fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(125%_85%_at_50%_-10%,#7a1e75_0%,#3d1040_42%,#1c0922_100%)]" />

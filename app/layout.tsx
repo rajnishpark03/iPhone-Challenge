@@ -22,26 +22,40 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
-const SITE_TITLE = "Tutedude iPhone Challenge";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://tutedude.com");
+
+const SITE_TITLE = "Win iPhone 17 – Tutedude Instagram Reel Challenge 2025";
 const SITE_DESC =
-  "Learn. Create. Share. Win. The official Tutedude iPhone Challenge — share your learning journey on Instagram Reels and win an iPhone 17 worth ₹82,900.";
+  "Join the Tutedude iPhone Challenge — create Instagram Reels about your learning journey and win an iPhone 17 worth ₹82,900. Free to enter. Open to all TuteDude students. Post July 1–31, 2025.";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_TITLE,
-    template: "%s · Tutedude",
+    template: "%s · Tutedude iPhone Challenge",
   },
   description: SITE_DESC,
   keywords: [
+    "Tutedude iPhone Challenge",
+    "Instagram Reel Challenge India",
+    "Win iPhone 17 India",
+    "Instagram Challenge Win Prize",
+    "TutedudeiPhoneChallenge",
+    "Instagram Learning Challenge",
+    "Win iPhone Instagram India 2025",
+    "Tutedude Contest",
+    "Create Reels Win iPhone",
+    "Student Instagram Challenge India",
+    "Free iPhone Contest India",
     "Tutedude",
-    "iPhone Challenge",
-    "iPhone 17",
-    "Instagram Reels",
-    "30 Day Challenge",
-    "Learn AI",
-    "Win iPhone",
+    "Instagram Reels Competition",
   ],
-  authors: [{ name: "Tutedude" }],
+  authors: [{ name: "Tutedude", url: "https://tutedude.com" }],
+  creator: "Tutedude",
+  publisher: "Tutedude",
+  alternates: { canonical: "/" },
   icons: {
     icon: "/tutedudelogo.png",
     apple: "/tutedudelogo.png",
@@ -50,16 +64,30 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESC,
     type: "website",
+    url: "/",
     siteName: "Tutedude iPhone Challenge",
-    images: [{ url: "/tutedudelogo.png", width: 512, height: 512, alt: "Tutedude" }],
+    locale: "en_IN",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Tutedude iPhone Challenge – Win iPhone 17 worth ₹82,900",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESC,
-    images: ["/tutedudelogo.png"],
+    creator: "@tutedude",
+    images: ["/og-image.png"],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
 };
 
 export const viewport: Viewport = {
