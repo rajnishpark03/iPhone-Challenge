@@ -154,26 +154,34 @@ export default function SectionRules() {
         <RevealGroup className="mt-7 grid gap-3 sm:mt-12 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3" stagger={0.06}>
           {flags.map(({ Icon, label, desc, anim, dur }) => (
             <RevealItem key={label} className="h-full">
-              <motion.div
-                className={`${CARD} flex h-full flex-col gap-4 p-5 cursor-default`}
-                whileHover={isMobile ? {} : "hovered"}
-                style={{ translateY: 0 }}
-                variants={{ hovered: { y: -4, borderColor: "rgba(237,193,104,0.25)" } }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#edc168]/10 text-[#edc168]">
-                    <motion.div
-                      variants={{ hovered: anim }}
-                      transition={{ duration: dur, ease: "easeInOut" }}
-                    >
+              {isMobile ? (
+                <div className={`${CARD} flex h-full flex-col gap-4 p-5`}>
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#edc168]/10 text-[#edc168]">
                       <Icon className="h-5 w-5" />
-                    </motion.div>
-                  </span>
-                  <span className="font-semibold text-white/90">{label}</span>
+                    </span>
+                    <span className="font-semibold text-white/90">{label}</span>
+                  </div>
+                  <p className="text-sm leading-relaxed text-white/50">{desc}</p>
                 </div>
-                <p className="text-sm leading-relaxed text-white/50">{desc}</p>
-              </motion.div>
+              ) : (
+                <motion.div
+                  className={`${CARD} flex h-full flex-col gap-4 p-5 cursor-default`}
+                  whileHover="hovered"
+                  variants={{ hovered: { y: -4, borderColor: "rgba(237,193,104,0.25)" } }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#edc168]/10 text-[#edc168]">
+                      <motion.div variants={{ hovered: anim }} transition={{ duration: dur, ease: "easeInOut" }}>
+                        <Icon className="h-5 w-5" />
+                      </motion.div>
+                    </span>
+                    <span className="font-semibold text-white/90">{label}</span>
+                  </div>
+                  <p className="text-sm leading-relaxed text-white/50">{desc}</p>
+                </motion.div>
+              )}
             </RevealItem>
           ))}
         </RevealGroup>

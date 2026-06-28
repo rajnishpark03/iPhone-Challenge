@@ -64,74 +64,44 @@ export default function Home() {
 
           {/* ---- LEFT: text ---- */}
           <div className="flex w-full flex-col items-center lg:flex-1 lg:items-start">
-            <motion.h1
-              initial={isMobile ? false : { opacity: 0, y: 24 }}
-              animate={isMobile ? {} : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span className="block font-display text-[clamp(1.1rem,4vw,2.2rem)] font-extrabold leading-tight tracking-tight text-white/80">
-                {meta.brand}
-              </span>
-              <span className={`block pb-2 font-display text-[clamp(2.8rem,12vw,6.5rem)] font-extrabold leading-[0.95] tracking-tight ${GOLD}`}>
-                iPhone
-                <br />
-                Challenge<sup className="align-super text-[0.28em] font-bold">™</sup>
-              </span>
-            </motion.h1>
+            {isMobile ? (
+              <h1>
+                <span className="block font-display text-[clamp(1.1rem,4vw,2.2rem)] font-extrabold leading-tight tracking-tight text-white/80">{meta.brand}</span>
+                <span className={`block pb-2 font-display text-[clamp(2.8rem,12vw,6.5rem)] font-extrabold leading-[0.95] tracking-tight ${GOLD}`}>iPhone<br />Challenge<sup className="align-super text-[0.28em] font-bold">™</sup></span>
+              </h1>
+            ) : (
+              <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
+                <span className="block font-display text-[clamp(1.1rem,4vw,2.2rem)] font-extrabold leading-tight tracking-tight text-white/80">{meta.brand}</span>
+                <span className={`block pb-2 font-display text-[clamp(2.8rem,12vw,6.5rem)] font-extrabold leading-[0.95] tracking-tight ${GOLD}`}>iPhone<br />Challenge<sup className="align-super text-[0.28em] font-bold">™</sup></span>
+              </motion.h1>
+            )}
 
-            <motion.p
-              initial={isMobile ? false : { opacity: 0, y: 20 }}
-              animate={isMobile ? {} : { opacity: 1, y: 0 }}
-              transition={{ delay: 0.25, duration: 0.7 }}
-              className="mt-4 max-w-xs text-sm font-medium leading-relaxed text-white/70 sm:max-w-md sm:text-base"
-            >
-              Create and post reels about your learning journey with Tutedude and stand a chance to win a Brand New iPhone 17.
-            </motion.p>
+            {isMobile ? (
+              <p className="mt-4 max-w-xs text-sm font-medium leading-relaxed text-white/70 sm:max-w-md sm:text-base">
+                Create and post reels about your learning journey with Tutedude and stand a chance to win a Brand New iPhone 17.
+              </p>
+            ) : (
+              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.7 }} className="mt-4 max-w-xs text-sm font-medium leading-relaxed text-white/70 sm:max-w-md sm:text-base">
+                Create and post reels about your learning journey with Tutedude and stand a chance to win a Brand New iPhone 17.
+              </motion.p>
+            )}
 
-            <motion.button
-              initial={isMobile ? false : { opacity: 0 }}
-              animate={isMobile ? {} : { opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              className={`mt-6 rounded-full px-6 py-3 text-sm font-bold sm:mt-8 sm:px-10 sm:py-4 sm:text-base ${GOLD_BTN}`}
-            >
-              Register Now for Free!
-            </motion.button>
+            {isMobile ? (
+              <button className={`mt-6 rounded-full px-6 py-3 text-sm font-bold sm:mt-8 sm:px-10 sm:py-4 sm:text-base ${GOLD_BTN}`}>
+                Register Now for Free!
+              </button>
+            ) : (
+              <motion.button initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 0.5 }} whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} className={`mt-6 rounded-full px-6 py-3 text-sm font-bold sm:mt-8 sm:px-10 sm:py-4 sm:text-base ${GOLD_BTN}`}>
+                Register Now for Free!
+              </motion.button>
+            )}
           </div>
 
           {/* ---- RIGHT: iPhone + price badge ---- */}
           <div className="flex flex-col items-center gap-4 lg:shrink-0">
-            <motion.div
-              animate={isMobile ? {} : { y: [0, -14, 0] }}
-              transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }}
-              className="relative isolate"
-              style={isMobile ? { willChange: "auto" } : undefined}
-            >
-              {/* static light behind phone */}
-              <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10" style={{ transform: "translate(-50%, -50%)", width: "160%", height: "140%", borderRadius: "50%", background: "radial-gradient(ellipse at 50% 50%, rgba(237,193,104,0.55) 0%, rgba(180,60,220,0.22) 45%, transparent 72%)", filter: "blur(36px)" }} />
-              <Image
-                src="/iphone-17-prize.webp"
-                alt="iPhone 17"
-                width={300}
-                height={600}
-                className="h-[200px] max-w-[90vw] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] sm:h-[300px] lg:h-[420px]"
-              />
-
-              {/* ₹82,900 badge */}
-              <div className="absolute bottom-[10%] left-1/2 w-28 -translate-x-1/2 rounded-xl border-2 border-[#edc168] bg-[#2b0a30] p-2 shadow-[0_0_24px_rgba(237,193,104,0.35)] sm:w-40 sm:-rotate-[5deg] sm:rounded-2xl sm:p-3 lg:w-48">
-                <p className="text-[7px] font-bold uppercase tracking-widest text-[#edc168]/60 sm:text-[9px]">Grand Prize Worth</p>
-                <p className={`mt-0.5 font-display text-lg font-extrabold leading-none sm:text-2xl lg:text-3xl ${GOLD}`}>
-                  ₹82,900
-                </p>
-                <div className="my-1 h-px bg-[#edc168]/20 sm:my-2" />
-                <p className="text-[8px] font-bold uppercase tracking-wider text-white/55 sm:text-[10px]">
-                  🎉 Win for FREE
-                </p>
-              </div>
-
-              {/* ── stars around the iPhone — CSS-animated, works on mobile ── */}
-              {[
+            {/* iPhone — plain div on mobile, floating motion.div on desktop */}
+            {(() => {
+              const stars = [
                 { top: "-14%", left: "78%",  size: 22, delay: 0,    dur: 2.8, color: "#f8e3a6", glow: true  },
                 { top: "5%",   left: "-20%", size: 20, delay: 0.7,  dur: 3.0, color: "#edc168", glow: true  },
                 { top: "88%",  left: "72%",  size: 18, delay: 1.3,  dur: 2.6, color: "#f8e3a6", glow: true  },
@@ -144,28 +114,31 @@ export default function Home() {
                 { top: "48%",  left: "-10%", size: 7,  delay: 0.4,  dur: 2.1, color: "#edc168", glow: false },
                 { top: "70%",  left: "98%",  size: 8,  delay: 2.0,  dur: 1.8, color: "#f8e3a6", glow: false },
                 { top: "-2%",  left: "-6%",  size: 6,  delay: 1.4,  dur: 2.0, color: "#edc168", glow: false },
-              ].map((s, i) => (
-                <div key={i} style={{ position: "absolute", top: s.top, left: s.left, pointerEvents: "none" }}>
-                  {s.glow && (
-                    <div style={{
-                      position: "absolute",
-                      inset: -s.size,
-                      borderRadius: "50%",
-                      background: `radial-gradient(circle, ${s.color}55 0%, transparent 70%)`,
-                      filter: "blur(8px)",
-                    }} />
-                  )}
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="star-twinkle"
-                    style={{ width: s.size, height: s.size, display: "block", "--star-dur": `${s.dur}s`, "--star-delay": `${s.delay}s` } as React.CSSProperties}
-                    aria-hidden
-                  >
-                    <path d="M12 2 L13.5 9 L20 12 L13.5 15 L12 22 L10.5 15 L4 12 L10.5 9 Z" fill={s.color} />
-                  </svg>
-                </div>
-              ))}
-            </motion.div>
+              ];
+              const inner = (
+                <>
+                  <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10" style={{ transform: "translate(-50%, -50%)", width: "160%", height: "140%", borderRadius: "50%", background: "radial-gradient(ellipse at 50% 50%, rgba(237,193,104,0.55) 0%, rgba(180,60,220,0.22) 45%, transparent 72%)", filter: "blur(36px)" }} />
+                  <Image src="/iphone-17-prize.webp" alt="iPhone 17" width={300} height={600} className="h-[200px] max-w-[90vw] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] sm:h-[300px] lg:h-[420px]" />
+                  <div className="absolute bottom-[10%] left-1/2 w-28 -translate-x-1/2 rounded-xl border-2 border-[#edc168] bg-[#2b0a30] p-2 shadow-[0_0_24px_rgba(237,193,104,0.35)] sm:w-40 sm:-rotate-[5deg] sm:rounded-2xl sm:p-3 lg:w-48">
+                    <p className="text-[7px] font-bold uppercase tracking-widest text-[#edc168]/60 sm:text-[9px]">Grand Prize Worth</p>
+                    <p className={`mt-0.5 font-display text-lg font-extrabold leading-none sm:text-2xl lg:text-3xl ${GOLD}`}>₹82,900</p>
+                    <div className="my-1 h-px bg-[#edc168]/20 sm:my-2" />
+                    <p className="text-[8px] font-bold uppercase tracking-wider text-white/55 sm:text-[10px]">🎉 Win for FREE</p>
+                  </div>
+                  {stars.map((s, i) => (
+                    <div key={i} style={{ position: "absolute", top: s.top, left: s.left, pointerEvents: "none" }}>
+                      {s.glow && <div style={{ position: "absolute", inset: -s.size, borderRadius: "50%", background: `radial-gradient(circle, ${s.color}55 0%, transparent 70%)`, filter: "blur(8px)" }} />}
+                      <svg viewBox="0 0 24 24" className="star-twinkle" style={{ width: s.size, height: s.size, display: "block", "--star-dur": `${s.dur}s`, "--star-delay": `${s.delay}s` } as React.CSSProperties} aria-hidden>
+                        <path d="M12 2 L13.5 9 L20 12 L13.5 15 L12 22 L10.5 15 L4 12 L10.5 9 Z" fill={s.color} />
+                      </svg>
+                    </div>
+                  ))}
+                </>
+              );
+              return isMobile
+                ? <div className="relative isolate">{inner}</div>
+                : <motion.div animate={{ y: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }} className="relative isolate">{inner}</motion.div>;
+            })()}
 
           </div>
         </div>
