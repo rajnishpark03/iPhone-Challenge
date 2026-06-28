@@ -112,37 +112,18 @@ export default function Home() {
 
           {/* ---- LEFT: text ---- */}
           <div className="flex w-full flex-col items-center lg:flex-1 lg:items-start">
-            {isMobile ? (
-              <h1>
-                <span className="block font-display text-[clamp(1.1rem,4vw,2.2rem)] font-extrabold leading-tight tracking-tight text-white/80">{meta.brand}</span>
-                <span className={`block pb-2 font-display text-[clamp(2.8rem,12vw,6.5rem)] font-extrabold leading-[0.95] tracking-tight ${GOLD}`}>iPhone<br />Challenge<sup className="align-super text-[0.28em] font-bold">™</sup></span>
-              </h1>
-            ) : (
-              <motion.h1 initial={{ y: 24 }} animate={{ y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
+            <motion.h1 initial={isMobile ? false : { y: 24 }} animate={isMobile ? {} : { y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
                 <span className="block font-display text-[clamp(1.1rem,4vw,2.2rem)] font-extrabold leading-tight tracking-tight text-white/80">{meta.brand}</span>
                 <span className={`block pb-2 font-display text-[clamp(2.8rem,12vw,6.5rem)] font-extrabold leading-[0.95] tracking-tight ${GOLD}`}>iPhone<br />Challenge<sup className="align-super text-[0.28em] font-bold">™</sup></span>
               </motion.h1>
-            )}
 
-            {isMobile ? (
-              <p className="mt-4 max-w-xs text-sm font-medium leading-relaxed text-white/70 sm:max-w-md sm:text-base">
-                Create and post reels about your learning journey with Tutedude and stand a chance to win a Brand New iPhone 17.
-              </p>
-            ) : (
-              <motion.p initial={{ y: 20 }} animate={{ y: 0 }} transition={{ delay: 0.25, duration: 0.7 }} className="mt-4 max-w-xs text-sm font-medium leading-relaxed text-white/70 sm:max-w-md sm:text-base">
+            <motion.p initial={isMobile ? false : { y: 20 }} animate={isMobile ? {} : { y: 0 }} transition={{ delay: 0.25, duration: 0.7 }} className="mt-4 max-w-xs text-sm font-medium leading-relaxed text-white/70 sm:max-w-md sm:text-base">
                 Create and post reels about your learning journey with Tutedude and stand a chance to win a Brand New iPhone 17.
               </motion.p>
-            )}
 
-            {isMobile ? (
-              <button className={`mt-6 rounded-full px-6 py-3 text-sm font-bold sm:mt-8 sm:px-10 sm:py-4 sm:text-base ${GOLD_BTN}`}>
-                Register Now for Free!
-              </button>
-            ) : (
-              <motion.button whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} className={`mt-6 rounded-full px-6 py-3 text-sm font-bold sm:mt-8 sm:px-10 sm:py-4 sm:text-base ${GOLD_BTN}`}>
+            <motion.button whileHover={isMobile ? {} : { scale: 1.05, y: -2 }} whileTap={isMobile ? {} : { scale: 0.97 }} className={`mt-6 rounded-full px-6 py-3 text-sm font-bold sm:mt-8 sm:px-10 sm:py-4 sm:text-base ${GOLD_BTN}`}>
                 Register Now for Free!
               </motion.button>
-            )}
           </div>
 
           {/* ---- RIGHT: iPhone + price badge ---- */}
@@ -183,9 +164,7 @@ export default function Home() {
                   ))}
                 </>
               );
-              return isMobile
-                ? <div className="relative isolate">{inner}</div>
-                : <motion.div animate={{ y: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }} className="relative isolate">{inner}</motion.div>;
+              return <motion.div animate={isMobile ? {} : { y: [0, -14, 0] }} transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }} className="relative isolate">{inner}</motion.div>;
             })()}
 
           </div>
