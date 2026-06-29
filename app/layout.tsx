@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Sora, JetBrains_Mono } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 
 import MotionProvider from "@/components/providers/MotionProvider";
@@ -13,12 +13,7 @@ const inter = Inter({
 const sora = Sora({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
-  display: "swap",
-});
-const mono = JetBrains_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
+  weight: ["700", "800"],
   display: "swap",
 });
 
@@ -103,7 +98,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="dark"
-      className={`${inter.variable} ${sora.variable} ${mono.variable}`}
+      className={`${inter.variable} ${sora.variable}`}
     >
       <head>
         <link rel="preload" href="/iphone-17-prize.webp" as="image" fetchPriority="high" />

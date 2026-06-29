@@ -11,6 +11,8 @@ import {
   Mail,
   Phone,
   MapPin,
+  Camera,
+  GraduationCap,
 } from "lucide-react";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { meta } from "@/lib/content";
@@ -34,7 +36,7 @@ const jsonLd = {
       "@id": "https://tutedude.com/#org",
       name: "Tutedude",
       url: "https://tutedude.com",
-      logo: "https://tutedude.com/tutedudelogo.png",
+      logo: "https://tutedude-iphone-challenge.pages.dev/tutedudelogo.png",
       sameAs: ["https://www.instagram.com/tutedudeofficial/", "https://www.youtube.com/@tutedudeofficial", "https://facebook.com/tutedude.officials", "https://in.linkedin.com/company/tutedudeofficial"],
       contactPoint: { "@type": "ContactPoint", telephone: "+91-7999749959", contactType: "customer support", email: "support@tutedude.com" },
     },
@@ -146,7 +148,7 @@ export default function Home() {
               const inner = (
                 <>
                   <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10" style={{ transform: "translate(-50%, -50%)", width: "160%", height: "140%", borderRadius: "50%", background: "radial-gradient(ellipse at 50% 50%, rgba(237,193,104,0.55) 0%, rgba(180,60,220,0.22) 45%, transparent 72%)", filter: "blur(36px)" }} />
-                  <Image src="/iphone-17-prize.webp" alt="iPhone 17" width={800} height={800} priority fetchPriority="high" className="h-[200px] max-w-[90vw] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] sm:h-[300px] lg:h-[420px]" />
+                  <Image src="/iphone-17-prize.webp" alt="iPhone 17" width={800} height={800} priority fetchPriority="high" sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 420px" className="h-[200px] max-w-[90vw] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] sm:h-[300px] lg:h-[420px]" />
                   <div className="absolute bottom-[10%] left-1/2 w-28 -translate-x-1/2 rounded-xl border-2 border-[#edc168] bg-[#2b0a30] p-2 shadow-[0_0_24px_rgba(237,193,104,0.35)] sm:w-40 sm:-rotate-[5deg] sm:rounded-2xl sm:p-3 lg:w-48">
                     <p className="text-[7px] font-bold uppercase tracking-widest text-[#edc168]/80 sm:text-[9px]">Grand Prize Worth</p>
                     <p className={`mt-0.5 font-display text-lg font-extrabold leading-none sm:text-2xl lg:text-3xl ${GOLD}`}>₹82,900</p>
@@ -175,11 +177,11 @@ export default function Home() {
           stagger={0.1}
         >
           {[
-            { label: "DURATION",   value: "July 1 – July 31",              Icon: Calendar },
-            { label: "PLATFORM",   value: "Instagram",                Icon: Smartphone },
-            { label: "EXCLUSIVE",  value: "For Tutedude Learners 👥", Icon: Users },
-            { label: "GRAND PRIZE",value: "Win an iPhone",                  Icon: Trophy },
-          ].map(({ label, value, Icon }) => (
+            { label: "DURATION",    value: "July 1 – July 31",      Icon: Calendar,       InlineIcon: Calendar },
+            { label: "PLATFORM",    value: "Instagram",              Icon: Smartphone,     InlineIcon: Camera },
+            { label: "EXCLUSIVE",   value: "For Tutedude Learners",  Icon: Users,          InlineIcon: GraduationCap },
+            { label: "GRAND PRIZE", value: "Win an iPhone",          Icon: Trophy,         InlineIcon: Smartphone },
+          ].map(({ label, value, Icon, InlineIcon }) => (
             <RevealItem
               key={label}
               className="group flex flex-col items-center gap-3 text-center"
@@ -190,8 +192,9 @@ export default function Home() {
               <span className="text-[11px] uppercase tracking-wider text-white/60">
                 {label}
               </span>
-              <span className="-mt-1.5 max-w-[11rem] text-sm font-semibold leading-snug text-white/90">
+              <span className="-mt-1.5 flex items-center justify-center gap-1 max-w-[11rem] text-sm font-semibold leading-snug text-white/90">
                 {value}
+                <InlineIcon className="h-3.5 w-3.5 shrink-0 text-[#edc168]" />
               </span>
             </RevealItem>
           ))}
@@ -218,6 +221,7 @@ export default function Home() {
           <div className="relative">
             <div className="section-grid" />
             <p
+              aria-hidden="true"
               className="whitespace-nowrap text-center font-display font-extrabold leading-none tracking-tight text-white/[0.06]"
               style={{ fontSize: "clamp(3.5rem, 18vw, 18rem)" }}
             >
