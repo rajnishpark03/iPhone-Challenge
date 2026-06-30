@@ -11,8 +11,22 @@ const CHALLENGE_START = new Date("2026-07-01T00:00:00+05:30").getTime();
 const CHALLENGE_END   = new Date("2026-07-31T23:59:59+05:30").getTime();
 const TOTAL_DAYS      = 31;
 
-/* placeholder — replace with real auth user name when auth is wired */
-const USER_NAME = "Rajnish";
+/* placeholder — replace with real auth user when auth is wired */
+const USER_NAME  = "Rajnish";
+const USER_EMAIL = "rajnish@example.com";
+
+const AVATAR_COLORS = [
+  "#e03c6e","#e05c3c","#d4a017","#3cb87a","#3c8fe0",
+  "#7c3ce0","#e03cb8","#3cbce0","#e07c3c","#5c8f3c",
+];
+function firstLetter(email: string) {
+  const match = email.match(/[a-zA-Z]/);
+  return match ? match[0].toUpperCase() : "?";
+}
+function avatarColor(email: string) {
+  const code = firstLetter(email).charCodeAt(0) || 0;
+  return AVATAR_COLORS[code % AVATAR_COLORS.length];
+}
 
 function useCountdown() {
   const [t, setT]         = useState({ d: 0, h: 0, min: 0, s: 0 });
@@ -151,11 +165,14 @@ export default function DashboardPage() {
             <Image src="/tutedudelogo.webp" alt="Tutedude" width={30} height={30} />
             <span className="text-lg font-bold tracking-tight">Tutedude</span>
           </a>
-          <div className="flex items-center gap-2 rounded-full bg-white/[0.08] px-2 py-1 pr-3">
-            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white text-xs font-extrabold text-[#2B0A30]">
-              {USER_NAME.charAt(0).toUpperCase()}
+          <div className="flex items-center gap-2.5 rounded-xl border border-white/[0.10] bg-white/[0.05] px-3 py-1.5">
+            <div
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-extrabold text-white shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+              style={{ background: avatarColor(USER_EMAIL) }}
+            >
+              {firstLetter(USER_EMAIL)}
             </div>
-            <span className="max-w-[80px] truncate text-sm font-semibold text-white sm:max-w-none">{USER_NAME}</span>
+            <span className="max-w-[80px] truncate text-sm font-semibold text-white/90 sm:max-w-none">{USER_NAME}</span>
           </div>
         </nav>
       </header>

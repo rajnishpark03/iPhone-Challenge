@@ -27,19 +27,8 @@ export default function LoginPage() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#2B0A30] font-sans text-white">
 
-      {/* ── NAVBAR ── */}
-      <header className="sticky top-0 z-50 border-b border-white/[0.08] bg-[#2B0A30]/75 backdrop-blur-2xl">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
-          <a href="/" className="flex items-center gap-2 opacity-90 transition-opacity hover:opacity-70">
-            <Image src="/tutedudelogo.webp" alt="Tutedude" width={30} height={30} />
-            <span className="text-lg font-bold tracking-tight">Tutedude</span>
-          </a>
-          <span className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#edc168]">✦ iPhone Challenge</span>
-        </nav>
-      </header>
-
       {/* ── MAIN ── */}
-      <main className="relative flex min-h-[calc(100vh-57px)] items-center justify-center px-4 py-16 sm:px-8">
+      <main className="relative flex min-h-screen items-center justify-center px-4 py-16 sm:px-8">
 
         {/* grid only near the card area */}
         <div className="section-grid" />
@@ -60,8 +49,8 @@ export default function LoginPage() {
 
               {/* logo + headline */}
               <div className="mb-8 flex flex-col items-center text-center">
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#edc168]/25 bg-[#edc168]/10 shadow-[0_0_24px_rgba(237,193,104,0.2)]">
-                  <Image src="/tutedudelogo.webp" alt="Tutedude" width={36} height={36} />
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#edc168]/10 shadow-[0_0_24px_rgba(237,193,104,0.2)]">
+                  <Image src="/tutedudelogo.webp" alt="Tutedude" width={36} height={36} className="brightness-0 invert" />
                 </div>
                 <h1 className={`font-display text-2xl font-extrabold sm:text-3xl ${GOLD}`}>
                   Welcome Back
