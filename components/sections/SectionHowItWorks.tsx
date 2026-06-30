@@ -1,7 +1,7 @@
 "use client";
 
 import { m as motion } from "framer-motion";
-import { UserPlus, Film, Smartphone, AtSign, Link2, PartyPopper } from "lucide-react";
+import { UserPlus, Film, Smartphone, AtSign, Link2, Trophy } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { useIsMobile } from "@/lib/useIsMobile";
@@ -38,13 +38,13 @@ const steps: { n: string; title: string; description: string }[] = [
   },
   {
     n: "6",
-    title: "Win 🎉",
+    title: "Win",
     description:
       "The best reels get featured across TuteDude, and one learner takes home the iPhone 17.",
   },
 ];
 
-const stepIcons: LucideIcon[] = [UserPlus, Film, Smartphone, AtSign, Link2, PartyPopper];
+const stepIcons: LucideIcon[] = [UserPlus, Film, Smartphone, AtSign, Link2, Trophy];
 
 export default function SectionHowItWorks() {
   const isMobile = useIsMobile();
