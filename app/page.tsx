@@ -19,14 +19,16 @@ import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { meta } from "@/lib/content";
 import { GOLD, GOLD_BTN } from "@/lib/tokens";
 
+import dynamic from "next/dynamic";
+
 import SectionWelcome from "@/components/sections/SectionWelcome";
-import SectionHowItWorks from "@/components/sections/SectionHowItWorks";
-import SectionPeopleParticipating from "@/components/sections/SectionPeopleParticipating";
-import SectionWhoCanJoin from "@/components/sections/SectionWhoCanJoin";
-import SectionPrizes from "@/components/sections/SectionPrizes";
-import SectionRules from "@/components/sections/SectionRules";
-import SectionFAQ from "@/components/sections/SectionFAQ";
-import SectionClosingCTA from "@/components/sections/SectionClosingCTA";
+const SectionHowItWorks       = dynamic(() => import("@/components/sections/SectionHowItWorks"));
+const SectionPeopleParticipating = dynamic(() => import("@/components/sections/SectionPeopleParticipating"));
+const SectionWhoCanJoin       = dynamic(() => import("@/components/sections/SectionWhoCanJoin"));
+const SectionPrizes           = dynamic(() => import("@/components/sections/SectionPrizes"));
+const SectionRules            = dynamic(() => import("@/components/sections/SectionRules"));
+const SectionFAQ              = dynamic(() => import("@/components/sections/SectionFAQ"));
+const SectionClosingCTA       = dynamic(() => import("@/components/sections/SectionClosingCTA"));
 
 /* ---- JSON-LD structured data for SEO / AEO ---- */
 const jsonLd = {
