@@ -20,9 +20,9 @@ const sora = Sora({
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://tutedude-iphone-challenge.pages.dev";
 
-const SITE_TITLE = "Win iPhone 17 – Tutedude Instagram Reel Challenge 2025";
+const SITE_TITLE = "Win iPhone 17 – Tutedude Instagram Reel Challenge 2026";
 const SITE_DESC =
-  "Join the Tutedude iPhone Challenge — create Instagram Reels about your learning journey and win an iPhone 17 worth ₹82,900. Free to enter. Open to all TuteDude students. Post July 1–31, 2025.";
+  "Join the Tutedude iPhone Challenge — create Instagram Reels about your learning journey and win an iPhone 17 worth ₹82,900. Free to enter. Open to all TuteDude students. Post July 1–31, 2026.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     "Instagram Challenge Win Prize",
     "TutedudeiPhoneChallenge",
     "Instagram Learning Challenge",
-    "Win iPhone Instagram India 2025",
+    "Win iPhone Instagram India 2026",
     "Tutedude Contest",
     "Create Reels Win iPhone",
     "Student Instagram Challenge India",

@@ -29,7 +29,7 @@ export default function OGImage() {
         {/* badge */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(237,193,104,0.15)", border: "1px solid rgba(237,193,104,0.4)", borderRadius: 40, padding: "10px 28px", marginBottom: 24 }}>
           <span style={{ fontSize: 18, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: "#edc168" }}>
-            July 1 – 31, 2025
+            July 1 – 31, 2026
           </span>
         </div>
 
