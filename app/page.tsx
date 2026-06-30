@@ -78,7 +78,7 @@ const jsonLd = {
 /* ---------------------------------------------------------------- page --- */
 export default function Home() {
   const isMobile = useIsMobile();
-  const heroButtonRef = useRef<HTMLButtonElement>(null);
+  const heroButtonRef = useRef<HTMLAnchorElement>(null);
   const [showStickyBar, setShowStickyBar] = useState(false);
 
   useEffect(() => {
@@ -111,9 +111,9 @@ export default function Home() {
             <span className="text-lg font-bold tracking-tight">{meta.brand}</span>
           </a>
           <div className="flex items-center gap-2 sm:gap-3">
-<button className={`whitespace-nowrap rounded-full px-4 py-3 text-xs font-bold sm:px-5 sm:py-2.5 sm:text-sm ${GOLD_BTN}`}>
+<a href="/login" className={`whitespace-nowrap rounded-full px-4 py-3 text-xs font-bold sm:px-5 sm:py-2.5 sm:text-sm ${GOLD_BTN}`}>
               Register Now
-            </button>
+            </a>
           </div>
         </nav>
       </header>
@@ -136,9 +136,9 @@ export default function Home() {
                 Create and post reels about your learning journey with Tutedude and stand a chance to win a Brand New iPhone 17.
               </motion.p>
 
-            <motion.button ref={heroButtonRef} whileHover={isMobile ? {} : { scale: 1.05, y: -2 }} whileTap={isMobile ? {} : { scale: 0.97 }} className={`mt-6 rounded-full px-6 py-3 text-sm font-bold sm:mt-8 sm:px-10 sm:py-4 sm:text-base ${GOLD_BTN}`}>
+            <motion.a href="/login" ref={heroButtonRef} whileHover={isMobile ? {} : { scale: 1.05, y: -2 }} whileTap={isMobile ? {} : { scale: 0.97 }} className={`mt-6 inline-block rounded-full px-6 py-3 text-sm font-bold sm:mt-8 sm:px-10 sm:py-4 sm:text-base ${GOLD_BTN}`}>
                 Register Now for Free!
-              </motion.button>
+              </motion.a>
           </div>
 
           {/* ---- RIGHT: iPhone + price badge ---- */}
@@ -231,9 +231,9 @@ export default function Home() {
           <span className="text-[0.6rem] font-bold uppercase tracking-[0.18em] text-[#edc168]">
             ✦ Exclusive for Tutedude Learners
           </span>
-          <button className={`w-full rounded-full py-3.5 text-sm font-bold ${GOLD_BTN}`}>
+          <a href="/login" className={`block w-full rounded-full py-3.5 text-center text-sm font-bold ${GOLD_BTN}`}>
             Register Now for Free!
-          </button>
+          </a>
         </div>
       </div>
 

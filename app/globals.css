@@ -483,3 +483,23 @@
   transform-origin: center;
 }
 
+/* ── Login button dot bounce ── */
+@keyframes bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.6; }
+  40%            { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ── Dashboard confetti ── */
+@keyframes confetti-fall {
+  0%   { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+.confetti-piece {
+  position: fixed;
+  top: -10px;
+  animation: confetti-fall linear infinite;
+  pointer-events: none;
+  z-index: 99;
+  border-radius: 2px;
+}
+

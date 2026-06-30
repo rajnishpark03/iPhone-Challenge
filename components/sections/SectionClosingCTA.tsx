@@ -83,11 +83,12 @@ export default function SectionClosingCTA() {
 
         {/* CTA button */}
         <div className="mt-5 sm:mt-8">
-          <button
-            className={`rounded-full px-8 py-4 text-base font-bold sm:px-12 sm:py-4 sm:text-lg ${GOLD_BTN}`}
+          <a
+            href="/login"
+            className={`inline-block rounded-full px-8 py-4 text-base font-bold sm:px-12 sm:py-4 sm:text-lg ${GOLD_BTN}`}
           >
             Register Now for Free!
-          </button>
+          </a>
         </div>
       </Reveal>
     </section>
