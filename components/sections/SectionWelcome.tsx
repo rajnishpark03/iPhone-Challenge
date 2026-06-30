@@ -36,7 +36,7 @@ export default function SectionWelcome() {
       >
         {checklist.map((item) => (
           <RevealItem key={item} className="h-full">
-            <div className={`${CARD} flex h-full items-center gap-3 px-5 py-4 text-left`}>
+            <div className={`${CARD} flex h-full min-h-[5rem] items-center gap-3 px-5 py-4 text-left`}>
               <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#edc168]/15 text-[#edc168]">
                 <Check className="h-4 w-4" />
               </span>
