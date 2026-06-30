@@ -350,7 +350,7 @@ export default function DashboardPage() {
                 </div>
               ))}
             </div>
-            <a href="/" className={`mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold ${GOLD_BTN}`}>
+            <a href="https://drive.google.com/file/d/1A_AsQHdnQ1JNDu3uO0i0O9Hf5JDRkG4w/view" target="_blank" rel="noopener noreferrer" className={`mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold ${GOLD_BTN}`}>
               Open Handbook <ExternalLink className="h-4 w-4" />
             </a>
           </m.div>
