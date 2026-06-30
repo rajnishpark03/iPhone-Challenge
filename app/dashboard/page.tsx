@@ -3,19 +3,20 @@
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { m, AnimatePresence } from "framer-motion";
-import { Instagram, Calendar, BookOpen, ExternalLink, Send, CheckCircle2 } from "lucide-react";
+import { Calendar, BookOpen, ExternalLink, Send, CheckCircle2 } from "lucide-react";
 import { useIsMobile } from "@/lib/useIsMobile";
 import { GOLD, GOLD_BTN, CARD } from "@/lib/tokens";
 
-/* ── challenge window: 1 July 2026 → 31 July 2026 IST ── */
 const CHALLENGE_START = new Date("2026-07-01T00:00:00+05:30").getTime();
 const CHALLENGE_END   = new Date("2026-07-31T23:59:59+05:30").getTime();
 const TOTAL_DAYS      = 31;
 
+/* placeholder — replace with real auth user name when auth is wired */
+const USER_NAME = "Rajnish";
+
 function useCountdown() {
   const [t, setT]         = useState({ d: 0, h: 0, min: 0, s: 0 });
   const [phase, setPhase] = useState<"live" | "ended">("live");
-
   useEffect(() => {
     const tick = () => {
       const now = Date.now();
@@ -32,7 +33,6 @@ function useCountdown() {
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
-
   return { t, phase };
 }
 
@@ -57,28 +57,41 @@ function useChallengeProgress() {
   return { pct, daysLeft, daysGone };
 }
 
-function CountBox({ value, label }: { value: number; label: string }) {
+/* ── Flip box — AnimatePresence on desktop, plain text on mobile ── */
+function CountBox({ value, label, large = false, isMobile }: { value: number; label: string; large?: boolean; isMobile: boolean }) {
   const str = String(value).padStart(2, "0");
+  const boxCls = large
+    ? "relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl border border-[#edc168]/25 bg-[#2B0A30] shadow-[0_0_24px_rgba(237,193,104,0.12)] sm:h-24 sm:w-24 sm:rounded-2xl"
+    : "relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl border border-[#edc168]/30 bg-[#2B0A30] sm:h-16 sm:w-16";
+  const textCls = large
+    ? `font-display text-2xl font-extrabold sm:text-4xl ${GOLD}`
+    : `font-display text-2xl font-extrabold sm:text-3xl ${GOLD}`;
+  const labelCls = large
+    ? "text-[0.55rem] font-bold uppercase tracking-widest text-white/40 sm:text-[0.65rem]"
+    : "text-[9px] font-bold uppercase tracking-widest text-white/50 sm:text-[10px]";
+
   return (
     <div className="flex flex-col items-center gap-1.5">
-      <div className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl border border-[#edc168]/30 bg-[#2B0A30] sm:h-16 sm:w-16">
-        <div className="pointer-events-none absolute inset-x-0 top-1/2 z-10 h-px bg-black/20" />
-        <AnimatePresence mode="popLayout">
-          <m.span
-            key={str}
-            initial={{ y: "-100%", opacity: 0 }}
-            animate={{ y: "0%",    opacity: 1 }}
-            exit={{    y: "100%",  opacity: 0 }}
-            transition={{ duration: 0.6, ease: [0.32, 0, 0.67, 0] }}
-            className={`font-display text-2xl font-extrabold sm:text-3xl ${GOLD}`}
-          >
-            {str}
-          </m.span>
-        </AnimatePresence>
+      <div className={boxCls}>
+        <div className="pointer-events-none absolute inset-x-0 top-1/2 z-10 h-px bg-black/15" />
+        {isMobile ? (
+          <span className={textCls}>{str}</span>
+        ) : (
+          <AnimatePresence mode="popLayout">
+            <m.span
+              key={str}
+              initial={{ y: "-100%", opacity: 0 }}
+              animate={{ y: "0%",    opacity: 1 }}
+              exit={{    y: "100%",  opacity: 0 }}
+              transition={{ duration: 0.55, ease: [0.32, 0, 0.67, 0] }}
+              className={textCls}
+            >
+              {str}
+            </m.span>
+          </AnimatePresence>
+        )}
       </div>
-      <span className="text-[9px] font-bold uppercase tracking-widest text-white/50 sm:text-[10px]">
-        {label}
-      </span>
+      <span className={labelCls}>{label}</span>
     </div>
   );
 }
@@ -107,14 +120,13 @@ export default function DashboardPage() {
   const { pct, daysLeft, daysGone } = useChallengeProgress();
   const confettiRef                 = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  /* confetti burst on mount — desktop only */
   useEffect(() => {
     if (isMobile) return;
     const colors = ["#edc168","#f8e3a6","#ce2ea0","#7c3aed","#f472b6","#fff","#d99a2b"];
     const container = document.getElementById("db-confetti");
     if (!container) return;
     const spawn = () => {
-      const el  = document.createElement("div");
+      const el = document.createElement("div");
       el.className = "confetti-piece";
       const size = 5 + Math.random() * 7;
       const dur  = 4 + Math.random() * 6;
@@ -130,7 +142,6 @@ export default function DashboardPage() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#2B0A30] font-sans text-white">
 
-      {/* confetti layer */}
       <div id="db-confetti" className="pointer-events-none fixed inset-0 z-[99] overflow-hidden" aria-hidden />
 
       {/* ── NAVBAR ── */}
@@ -140,18 +151,22 @@ export default function DashboardPage() {
             <Image src="/tutedudelogo.webp" alt="Tutedude" width={30} height={30} />
             <span className="text-lg font-bold tracking-tight">Tutedude</span>
           </a>
-          <span className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#edc168]">✦ Dashboard</span>
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#edc168]/20 text-xs font-bold text-[#edc168]">
+              {USER_NAME.charAt(0).toUpperCase()}
+            </div>
+            <span className="text-sm font-semibold text-white/80">{USER_NAME}</span>
+          </div>
         </nav>
       </header>
 
-      {/* ── SECTION 1 — WELCOME BANNER ── */}
+      {/* ── HERO ── */}
       <section className="relative mx-auto max-w-6xl px-4 pb-8 pt-10 sm:px-8 sm:pb-12 sm:pt-16">
         <div className="section-grid" />
         <div className="relative z-10 flex flex-col items-center gap-8 text-center lg:flex-row lg:items-center lg:gap-12 lg:text-left">
 
           {/* LEFT */}
           <div className="flex w-full flex-col items-center lg:flex-1 lg:items-start">
-
             <m.h1
               initial={{ y: 28, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -166,6 +181,7 @@ export default function DashboardPage() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.7 }}
+              className="flex flex-col items-center lg:items-start"
             >
               <p className="mt-3 text-xl font-bold text-white sm:text-2xl">You&rsquo;re officially in!</p>
               <p className="mt-2 max-w-sm text-sm font-semibold leading-relaxed text-white/75 sm:text-base">
@@ -181,7 +197,8 @@ export default function DashboardPage() {
               className="mt-5 flex flex-wrap justify-center gap-3 lg:justify-start"
             >
               <div className="flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.06] px-4 py-2 text-sm font-semibold text-white/85">
-                <Instagram className="h-4 w-4 text-pink-400" /> Platform: Instagram
+                <svg className="h-4 w-4 text-pink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                Platform: Instagram
               </div>
               <div className="flex items-center gap-2 rounded-full border border-white/[0.12] bg-white/[0.06] px-4 py-2 text-sm font-semibold text-white/85">
                 <Calendar className="h-4 w-4 text-[#edc168]" /> 1 July – 31 July
@@ -193,7 +210,7 @@ export default function DashboardPage() {
               initial={{ y: 14, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.44, duration: 0.6 }}
-              className="mt-7 w-full"
+              className="mt-7 flex w-full flex-col items-center lg:items-start"
             >
               <p className="mb-3 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/50">
                 {phase === "live" ? "⏳ Challenge Ends In" : "🎉 Challenge Has Ended"}
@@ -203,13 +220,13 @@ export default function DashboardPage() {
                 <p className={`font-display text-2xl font-extrabold ${GOLD}`}>Winners Announced Soon!</p>
               ) : (
                 <div className="flex items-start gap-2">
-                  <CountBox value={countdown.d}   label="Days" />
+                  <CountBox value={countdown.d}   label="Days"  isMobile={isMobile} />
                   <span className="mt-4 text-xl font-bold text-[#edc168]/60">:</span>
-                  <CountBox value={countdown.h}   label="Hours" />
+                  <CountBox value={countdown.h}   label="Hours" isMobile={isMobile} />
                   <span className="mt-4 text-xl font-bold text-[#edc168]/60">:</span>
-                  <CountBox value={countdown.min} label="Min" />
+                  <CountBox value={countdown.min} label="Min"   isMobile={isMobile} />
                   <span className="mt-4 text-xl font-bold text-[#edc168]/60">:</span>
-                  <CountBox value={countdown.s}   label="Sec" />
+                  <CountBox value={countdown.s}   label="Sec"   isMobile={isMobile} />
                 </div>
               )}
 
@@ -273,12 +290,11 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {/* ── SECTION 3 + 4 — SUBMIT & HANDBOOK ── */}
+      {/* ── SUBMIT & HANDBOOK ── */}
       <section className="relative mx-auto max-w-6xl px-4 py-6 sm:px-8 sm:py-10">
         <div className="section-grid" />
         <div className="relative z-10 grid gap-6 lg:grid-cols-3 lg:gap-8">
 
-          {/* Submit Your Reel */}
           <m.div
             initial={{ y: 32, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -311,7 +327,6 @@ export default function DashboardPage() {
             </p>
           </m.div>
 
-          {/* Creator Handbook */}
           <m.div
             initial={{ y: 32, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -342,31 +357,23 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {/* ── TIMER SECTION ── */}
+      {/* ── BIG TIMER ── */}
       <section className="relative mx-auto max-w-6xl px-4 py-14 text-center sm:px-8 sm:py-20">
         <div className="section-grid" />
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(237,193,104,0.15),transparent_70%)] blur-3xl sm:h-[28rem] sm:w-[28rem]" />
         </div>
-        <div className="relative z-10">
+        <div className="relative z-10 flex flex-col items-center">
           <m.div
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
+            className="flex flex-col items-center"
           >
-            <AnimatePresence mode="wait">
-              <m.p
-                key={phase}
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 8 }}
-                transition={{ duration: 0.4 }}
-                className="mb-8 text-[0.65rem] font-bold uppercase tracking-[0.22em] text-white/50"
-              >
-                {phase === "live" ? "Challenge Ends In" : "Challenge Has Ended"}
-              </m.p>
-            </AnimatePresence>
+            <p className="mb-8 text-[0.65rem] font-bold uppercase tracking-[0.22em] text-white/50">
+              {phase === "live" ? "Challenge Ends In" : "Challenge Has Ended"}
+            </p>
 
             {phase === "ended" ? (
               <p className={`font-display text-3xl font-extrabold sm:text-5xl ${GOLD}`}>Winners Announced Soon!</p>
@@ -380,24 +387,7 @@ export default function DashboardPage() {
                 ].map(({ value, label }, idx) => (
                   <div key={label} className="flex items-start gap-1.5 sm:gap-4">
                     {idx !== 0 && <span className="mt-4 text-lg font-bold text-[#edc168]/40 sm:mt-5 sm:text-3xl">:</span>}
-                    <div className="flex flex-col items-center gap-1.5">
-                      <div className="relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl border border-[#edc168]/25 bg-[#2B0A30] shadow-[0_0_24px_rgba(237,193,104,0.12)] sm:h-24 sm:w-24 sm:rounded-2xl">
-                        <div className="pointer-events-none absolute inset-x-0 top-1/2 z-10 h-px bg-black/15" />
-                        <AnimatePresence mode="popLayout">
-                          <m.span
-                            key={String(value).padStart(2, "0")}
-                            initial={{ y: "-100%", opacity: 0 }}
-                            animate={{ y: "0%",    opacity: 1 }}
-                            exit={{    y: "100%",  opacity: 0 }}
-                            transition={{ duration: 0.6, ease: [0.32, 0, 0.67, 0] }}
-                            className={`font-display text-2xl font-extrabold sm:text-4xl ${GOLD}`}
-                          >
-                            {String(value).padStart(2, "0")}
-                          </m.span>
-                        </AnimatePresence>
-                      </div>
-                      <span className="text-[0.55rem] font-bold uppercase tracking-widest text-white/40 sm:text-[0.65rem]">{label}</span>
-                    </div>
+                    <CountBox value={value} label={label} large isMobile={isMobile} />
                   </div>
                 ))}
               </div>
