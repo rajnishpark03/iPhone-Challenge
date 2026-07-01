@@ -15,10 +15,17 @@ import {
   Link2,
   Linkedin,
   MessageSquare,
+  PartyPopper,
+  Loader2,
 } from "lucide-react";
 import { useAuth } from "@/lib/useAuth";
 import { GOLD, GOLD_BTN, CARD } from "@/lib/tokens";
-import { trackVisit } from "@/lib/tracking";
+import {
+  trackVisit,
+  fetchParticipationStatus,
+  registerParticipation,
+} from "@/lib/tracking";
+import { Modal } from "@/components/ui/Modal";
 import axios from "axios";
 
 const MAIN_APP_BASE_URL = process.env.NEXT_PUBLIC_MAIN_APP_BASE_URL!;
@@ -97,6 +104,35 @@ export default function SubmitReelPage() {
     }
   }, [authLoading, user, hasCourses]);
 
+  // Participation gate: check status, block submission until registered.
+  const [registered, setRegistered] = useState(false);
+  const [registering, setRegistering] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [justRegistered, setJustRegistered] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && user && hasCourses) {
+      fetchParticipationStatus(user).then((s) => {
+        if (s?.registered) {
+          setRegistered(true);
+        } else {
+          setShowRegisterModal(true);
+        }
+      });
+    }
+  }, [authLoading, user, hasCourses]);
+
+  const handleModalRegister = async () => {
+    if (!user || registering || registered) return;
+    setRegistering(true);
+    const { ok } = await registerParticipation(user);
+    setRegistering(false);
+    if (ok) {
+      setRegistered(true);
+      setJustRegistered(true); // switches modal to success state
+    }
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -113,6 +149,12 @@ export default function SubmitReelPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    // Block submission if user hasn't opted-in to participation.
+    if (!registered) {
+      setShowRegisterModal(true);
+      return;
+    }
 
     if (!allConfirmed) {
       setError("Please accept all confirmations before submitting.");
@@ -476,6 +518,63 @@ export default function SubmitReelPage() {
           </p>
         </m.form>
       </main>
+
+      {/* ── Participation gate modal ── */}
+      <Modal
+        open={showRegisterModal}
+        onClose={
+          justRegistered ? () => setShowRegisterModal(false) : undefined
+        }
+        closable={justRegistered}
+      >
+        {justRegistered ? (
+          <div className="flex flex-col items-center text-center">
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-green-500/15 shadow-[0_0_32px_rgba(34,197,94,0.25)]">
+              <CheckCircle2 className="h-8 w-8 text-green-400" />
+            </div>
+            <h2 className={`font-display text-2xl font-extrabold ${GOLD}`}>
+              You&rsquo;re In! 🎉
+            </h2>
+            <p className="mt-3 max-w-xs text-sm font-semibold text-white/70">
+              You&rsquo;ve successfully registered. Go ahead and submit your reel below.
+            </p>
+            <button
+              onClick={() => setShowRegisterModal(false)}
+              className={`mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold ${GOLD_BTN}`}
+            >
+              <Send className="h-4 w-4" /> Continue to Submit
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center text-center">
+            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#edc168]/15 shadow-[0_0_32px_rgba(237,193,104,0.2)]">
+              <PartyPopper className="h-8 w-8 text-[#edc168]" />
+            </div>
+            <h2 className={`font-display text-2xl font-extrabold ${GOLD}`}>
+              One Quick Step First
+            </h2>
+            <p className="mt-3 max-w-xs text-sm font-semibold text-white/70">
+              Before you submit your reel, confirm that you&rsquo;re officially
+              participating in the Tutedude iPhone Challenge.
+            </p>
+            <button
+              onClick={handleModalRegister}
+              disabled={registering}
+              className={`mt-6 inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-bold ${GOLD_BTN} disabled:cursor-wait disabled:opacity-70`}
+            >
+              {registering ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <PartyPopper className="h-4 w-4" />
+              )}
+              {registering ? "Registering…" : "I'm Participating"}
+            </button>
+            <p className="mt-3 text-[10px] font-medium text-white/40">
+              This takes one click — you can submit right after.
+            </p>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }

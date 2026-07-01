@@ -17,6 +17,7 @@ import {
   ChevronRight,
   Sparkles,
   Filter,
+  PartyPopper,
 } from "lucide-react";
 import {
   AdminInfo,
@@ -44,12 +45,15 @@ interface Visitor {
   submittedAt?: string;
   reelLink?: string;
   source?: string;
+  registered?: boolean;
+  registeredAt?: string;
 }
 
 interface Stats {
   total: number;
   enrolled: number;
   notEnrolled: number;
+  registered: number;
   submitted: number;
   notEnrolledClickedExplore: number;
   bySource: { _id: string; count: number }[];
@@ -69,6 +73,7 @@ type FilterKey =
   | "enrolled"
   | "notEnrolled"
   | "notEnrolledClicked"
+  | "registered"
   | "submitted";
 
 const FILTER_LABELS: Record<FilterKey, string> = {
@@ -76,6 +81,7 @@ const FILTER_LABELS: Record<FilterKey, string> = {
   enrolled: "Enrolled",
   notEnrolled: "Not enrolled",
   notEnrolledClicked: "Non-enrolled + clicked",
+  registered: "Registered (participating)",
   submitted: "Submitted",
 };
 
@@ -87,6 +93,8 @@ const filterToQuery = (f: FilterKey) => {
       return { hasCourses: "false" };
     case "notEnrolledClicked":
       return { hasCourses: "false", clickedExploreCourses: "true" };
+    case "registered":
+      return { registered: "true" };
     case "submitted":
       return { hasSubmitted: "true" };
     default:
@@ -252,12 +260,23 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Stat cards */}
-        <div className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
           <StatCard
             icon={Users}
             label="Total visitors"
             value={stats?.total}
             tint="#edc168"
+          />
+          <StatCard
+            icon={PartyPopper}
+            label="Registered"
+            value={stats?.registered}
+            tint="#f472b6"
+            sub={
+              stats && stats.enrolled
+                ? `${Math.round((stats.registered / stats.enrolled) * 100)}% of enrolled`
+                : undefined
+            }
           />
           <StatCard
             icon={GraduationCap}
@@ -372,6 +391,7 @@ export default function AdminDashboardPage() {
                 <tr>
                   <th className="px-4 py-3 font-semibold">User</th>
                   <th className="px-4 py-3 font-semibold">Enrolled</th>
+                  <th className="px-4 py-3 font-semibold">Participating</th>
                   <th className="px-4 py-3 text-center font-semibold">Visits</th>
                   <th className="px-4 py-3 font-semibold">Source</th>
                   <th className="px-4 py-3 text-center font-semibold">
@@ -385,14 +405,14 @@ export default function AdminDashboardPage() {
               <tbody>
                 {loading && (
                   <tr>
-                    <td colSpan={8} className="px-4 py-16 text-center text-white/50">
+                    <td colSpan={9} className="px-4 py-16 text-center text-white/50">
                       <Loader2 className="mx-auto h-6 w-6 animate-spin text-[#edc168]" />
                     </td>
                   </tr>
                 )}
                 {!loading && visitors.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="px-4 py-16 text-center">
+                    <td colSpan={9} className="px-4 py-16 text-center">
                       <div className="mx-auto flex max-w-sm flex-col items-center gap-2 text-white/50">
                         <Search className="h-8 w-8 text-white/20" />
                         <p className="font-semibold">No visitors found</p>
@@ -432,6 +452,16 @@ export default function AdminDashboardPage() {
                           <Badge color="green">Yes</Badge>
                         ) : (
                           <Badge color="red">No</Badge>
+                        )}
+                      </td>
+                      <td className="px-4 py-3">
+                        {v.registered ? (
+                          <span className="inline-flex items-center gap-1 rounded-full border border-pink-500/40 bg-pink-500/10 px-2 py-0.5 text-xs font-semibold text-pink-300">
+                            <PartyPopper className="h-3 w-3" />
+                            Yes
+                          </span>
+                        ) : (
+                          <Badge color="gray">No</Badge>
                         )}
                       </td>
                       <td className="px-4 py-3 text-center font-mono text-sm text-white/80">

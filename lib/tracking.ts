@@ -62,6 +62,47 @@ export async function trackVisit(
   }
 }
 
+// ── "I'm Participating" registration (explicit opt-in) ──
+export async function registerParticipation(
+  user: AuthUser
+): Promise<{ ok: boolean; error?: string }> {
+  if (!MAIN_APP_BASE_URL) return { ok: false, error: "API not configured" };
+  if (!user?.id) return { ok: false, error: "Not logged in" };
+
+  try {
+    await axios.post(
+      `${MAIN_APP_BASE_URL}/lms/iphone-challenge/register-participation`,
+      { userId: user.id }
+    );
+    return { ok: true };
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      return {
+        ok: false,
+        error: err.response?.data?.message || err.message || "Failed",
+      };
+    }
+    return { ok: false, error: "Failed" };
+  }
+}
+
+export async function fetchParticipationStatus(
+  user: AuthUser
+): Promise<{ registered: boolean; hasSubmitted: boolean } | null> {
+  if (!MAIN_APP_BASE_URL || !user?.id) return null;
+  try {
+    const res = await axios.get(
+      `${MAIN_APP_BASE_URL}/lms/iphone-challenge/participation-status/${user.id}`
+    );
+    return {
+      registered: !!res.data?.registered,
+      hasSubmitted: !!res.data?.hasSubmitted,
+    };
+  } catch {
+    return null;
+  }
+}
+
 // ── Track a discrete event (uses sendBeacon so it survives navigation) ──
 export function trackEvent(user: AuthUser | null, event: string): void {
   if (typeof window === "undefined") return;

@@ -3,12 +3,13 @@
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { m, AnimatePresence } from "framer-motion";
-import { Calendar, BookOpen, ExternalLink, Send, CheckCircle2 } from "lucide-react";
+import { Calendar, BookOpen, ExternalLink, Send, CheckCircle2, Loader2, PartyPopper } from "lucide-react";
 import { useIsMobile } from "@/lib/useIsMobile";
 import { useAuth } from "@/lib/useAuth";
 import { useRouter } from "next/navigation";
 import { GOLD, GOLD_BTN, CARD } from "@/lib/tokens";
-import { trackVisit } from "@/lib/tracking";
+import { trackVisit, fetchParticipationStatus, registerParticipation } from "@/lib/tracking";
+import { Modal } from "@/components/ui/Modal";
 
 const CHALLENGE_START = new Date("2026-07-01T00:00:00+05:30").getTime();
 const CHALLENGE_END   = new Date("2026-07-31T23:59:59+05:30").getTime();
@@ -160,6 +161,29 @@ export default function DashboardPage() {
     }
   }, [authLoading, user, hasCourses]);
 
+  // Participation state
+  const [registered, setRegistered] = useState(false);
+  const [registering, setRegistering] = useState(false);
+  const [showRegisteredModal, setShowRegisteredModal] = useState(false);
+  useEffect(() => {
+    if (!authLoading && user && hasCourses) {
+      fetchParticipationStatus(user).then((s) => {
+        if (s?.registered) setRegistered(true);
+      });
+    }
+  }, [authLoading, user, hasCourses]);
+
+  const handleRegister = async () => {
+    if (!user || registered || registering) return;
+    setRegistering(true);
+    const { ok } = await registerParticipation(user);
+    setRegistering(false);
+    if (ok) {
+      setRegistered(true);
+      setShowRegisteredModal(true);
+    }
+  };
+
   useEffect(() => {
     if (isMobile) return;
     const colors = ["#edc168","#f8e3a6","#ce2ea0","#7c3aed","#f472b6","#fff","#d99a2b"];
@@ -245,6 +269,29 @@ export default function DashboardPage() {
               <p className="mt-2 max-w-sm text-sm font-semibold leading-relaxed text-white/75 sm:text-base">
                 Create, share, and submit your reels to get one step closer to winning an iPhone 17.
               </p>
+
+              {/* ── I'm Participating opt-in ── */}
+              <div className="mt-5">
+                {registered ? (
+                  <div className="inline-flex items-center gap-2 rounded-full border border-green-500/40 bg-green-500/10 px-5 py-2.5 text-sm font-bold text-green-300">
+                    <CheckCircle2 className="h-4 w-4" />
+                    You&rsquo;re participating!
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleRegister}
+                    disabled={registering}
+                    className={`inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-bold ${GOLD_BTN} disabled:cursor-wait disabled:opacity-70`}
+                  >
+                    {registering ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <PartyPopper className="h-4 w-4" />
+                    )}
+                    {registering ? "Registering…" : "I'm Participating"}
+                  </button>
+                )}
+              </div>
             </m.div>
 
             {/* chips */}
@@ -465,6 +512,39 @@ export default function DashboardPage() {
         </div>
         <p className="text-xs text-white/35">© {new Date().getFullYear()} Tutedude · iPhone Challenge Dashboard</p>
       </footer>
+
+      {/* ── Registration success modal ── */}
+      <Modal
+        open={showRegisteredModal}
+        onClose={() => setShowRegisteredModal(false)}
+      >
+        <div className="flex flex-col items-center text-center">
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-green-500/15 shadow-[0_0_32px_rgba(34,197,94,0.25)]">
+            <CheckCircle2 className="h-8 w-8 text-green-400" />
+          </div>
+          <h2 className={`font-display text-2xl font-extrabold ${GOLD}`}>
+            You&rsquo;re In! 🎉
+          </h2>
+          <p className="mt-3 max-w-xs text-sm font-semibold text-white/70">
+            You&rsquo;ve successfully registered for the Tutedude iPhone Challenge.
+            Now go create your reel and submit it before 31 July!
+          </p>
+          <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+            <a
+              href="/dashboard/submit"
+              className={`inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold ${GOLD_BTN}`}
+            >
+              <Send className="h-4 w-4" /> Submit Your Reel
+            </a>
+            <button
+              onClick={() => setShowRegisteredModal(false)}
+              className="rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 text-sm font-semibold text-white/70 transition-colors hover:bg-white/[0.08]"
+            >
+              Continue Later
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
