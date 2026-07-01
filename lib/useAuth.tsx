@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
 import { AuthUser, getCurrentUser, logout as authLogout, getUserFromCookies } from "./auth";
-import { trackVisit } from "./tracking";
+import { trackVisit, detectSource } from "./tracking";
 
 interface AuthContextType {
   user: AuthUser | null;
@@ -59,6 +59,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await authLogout();
     setUser(null);
     setCourses([]);
+  }, []);
+
+  // Capture attribution (utm_source) on first page load, BEFORE login.
+  // This ensures the source survives navigation to /login, /register, etc.
+  useEffect(() => {
+    detectSource();
   }, []);
 
   useEffect(() => {
