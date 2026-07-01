@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/useAuth";
 import { GOLD, GOLD_BTN, CARD } from "@/lib/tokens";
+import { trackVisit } from "@/lib/tracking";
 import axios from "axios";
 
 const MAIN_APP_BASE_URL = process.env.NEXT_PUBLIC_MAIN_APP_BASE_URL!;
@@ -88,6 +89,13 @@ export default function SubmitReelPage() {
       router.push("/not-enrolled");
     }
   }, [authLoading, user, hasCourses, router]);
+
+  // Track submit page visit
+  useEffect(() => {
+    if (!authLoading && user && hasCourses) {
+      trackVisit(user, { hasCourses: true, page: "submit" });
+    }
+  }, [authLoading, user, hasCourses]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

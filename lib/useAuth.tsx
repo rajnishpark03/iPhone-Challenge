@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
 import { AuthUser, getCurrentUser, logout as authLogout, getUserFromCookies } from "./auth";
+import { trackVisit } from "./tracking";
 
 interface AuthContextType {
   user: AuthUser | null;
@@ -43,6 +44,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (serverUser) {
       setUser(serverUser);
       setCourses(serverCourses);
+      // Fire visit tracking (once per session, non-blocking)
+      trackVisit(serverUser, { hasCourses: serverCourses.length > 0 });
     } else {
       // Session invalid — clear
       setUser(null);

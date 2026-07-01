@@ -7,6 +7,7 @@ import { m } from "framer-motion";
 import { ShieldX, ExternalLink } from "lucide-react";
 import { GOLD, GOLD_BTN, CARD } from "@/lib/tokens";
 import { useAuth } from "@/lib/useAuth";
+import { trackVisit, trackEvent } from "@/lib/tracking";
 
 export default function NotEnrolledPage() {
   const router = useRouter();
@@ -25,6 +26,13 @@ export default function NotEnrolledPage() {
       router.push("/dashboard");
     }
   }, [loading, user, hasCourses, router]);
+
+  // Track not-enrolled page visit
+  useEffect(() => {
+    if (!loading && user && !hasCourses) {
+      trackVisit(user, { hasCourses: false, page: "not-enrolled" });
+    }
+  }, [loading, user, hasCourses]);
 
   if (loading) {
     return (
@@ -104,6 +112,7 @@ export default function NotEnrolledPage() {
               href="https://www.tutedude.com"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackEvent(user, "explore_courses_click")}
               className={`mt-8 inline-flex items-center gap-2 rounded-full px-8 py-3.5 text-sm font-bold ${GOLD_BTN}`}
             >
               <ExternalLink className="h-4 w-4" /> Explore Tutedude Courses

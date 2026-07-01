@@ -8,6 +8,7 @@ import { useIsMobile } from "@/lib/useIsMobile";
 import { useAuth } from "@/lib/useAuth";
 import { useRouter } from "next/navigation";
 import { GOLD, GOLD_BTN, CARD } from "@/lib/tokens";
+import { trackVisit } from "@/lib/tracking";
 
 const CHALLENGE_START = new Date("2026-07-01T00:00:00+05:30").getTime();
 const CHALLENGE_END   = new Date("2026-07-31T23:59:59+05:30").getTime();
@@ -151,6 +152,13 @@ export default function DashboardPage() {
       router.push("/not-enrolled");
     }
   }, [authLoading, user, hasCourses, router]);
+
+  // Track dashboard visit
+  useEffect(() => {
+    if (!authLoading && user && hasCourses) {
+      trackVisit(user, { hasCourses: true, page: "dashboard" });
+    }
+  }, [authLoading, user, hasCourses]);
 
   useEffect(() => {
     if (isMobile) return;
