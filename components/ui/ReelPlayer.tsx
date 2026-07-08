@@ -49,9 +49,10 @@ export default function ReelPlayer({ src }: { src: string }) {
       <video
         ref={videoRef}
         src={src}
+        poster="/Instagram iPhone 17 cover page.png"
         controls={playing}
         playsInline
-        preload="metadata"
+        preload="none"
         className="w-full rounded-2xl"
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
