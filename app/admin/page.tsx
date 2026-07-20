@@ -18,6 +18,7 @@ import {
   Sparkles,
   Filter,
   PartyPopper,
+  Star,
 } from "lucide-react";
 import {
   AdminInfo,
@@ -59,6 +60,21 @@ interface Stats {
   bySource: { _id: string; count: number }[];
 }
 
+interface Submission {
+  _id: string;
+  email: string;
+  fullName: string;
+  registeredEmail: string;
+  instagramProfileLink: string;
+  contactNumber: string;
+  reelLink: string;
+  experience?: string;
+  linkedinProfile?: string;
+  isStarred: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface Pagination {
   total: number;
   page: number;
@@ -67,6 +83,8 @@ interface Pagination {
   hasPrev: boolean;
   hasNext: boolean;
 }
+
+type TabKey = "analytics" | "submissions";
 
 type FilterKey =
   | "all"
@@ -113,12 +131,17 @@ export default function AdminDashboardPage() {
   const [visitors, setVisitors] = useState<Visitor[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
 
+  const [activeTab, setActiveTab] = useState<TabKey>("analytics");
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState<FilterKey>("all");
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState<number>(25);
+
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [submissionsLoading, setSubmissionsLoading] = useState(false);
+  const [starringIds, setStarringIds] = useState<Set<string>>(new Set());
 
   // Auth guard
   useEffect(() => {
@@ -181,6 +204,46 @@ export default function AdminDashboardPage() {
     }
   }, [filter, search, page, pageSize]);
 
+  const loadSubmissions = useCallback(async () => {
+    setSubmissionsLoading(true);
+    try {
+      const res = await adminApi.get("/lms/iphone-challenge/all");
+      if (res.data?.success) {
+        setSubmissions(res.data.data || []);
+      }
+    } catch {
+      /* silently */
+    } finally {
+      setSubmissionsLoading(false);
+    }
+  }, []);
+
+  const toggleStar = async (submissionId: string) => {
+    setStarringIds((prev) => new Set(prev).add(submissionId));
+    try {
+      const res = await adminApi.patch(
+        `/lms/iphone-challenge/star/${submissionId}`
+      );
+      if (res.data?.success) {
+        setSubmissions((prev) =>
+          prev.map((s) =>
+            s._id === submissionId
+              ? { ...s, isStarred: res.data.data.isStarred }
+              : s
+          )
+        );
+      }
+    } catch {
+      /* silently */
+    } finally {
+      setStarringIds((prev) => {
+        const next = new Set(prev);
+        next.delete(submissionId);
+        return next;
+      });
+    }
+  };
+
   useEffect(() => {
     if (!admin) return;
     loadStats();
@@ -191,9 +254,15 @@ export default function AdminDashboardPage() {
     loadVisitors();
   }, [admin, loadVisitors]);
 
+  useEffect(() => {
+    if (!admin || activeTab !== "submissions") return;
+    loadSubmissions();
+  }, [admin, activeTab, loadSubmissions]);
+
   const refresh = () => {
     loadStats();
     loadVisitors();
+    if (activeTab === "submissions") loadSubmissions();
   };
 
   const handleLogout = () => {
@@ -326,8 +395,147 @@ export default function AdminDashboardPage() {
           />
         </div>
 
+        {/* Tabs */}
+        <div className="mb-6 flex gap-2">
+          <button
+            onClick={() => setActiveTab("analytics")}
+            className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${
+              activeTab === "analytics"
+                ? "bg-gradient-to-b from-[#f7dd97] to-[#dca23a] text-[#3a0f33] shadow-[0_4px_16px_-4px_rgba(231,170,58,0.55)]"
+                : "border border-white/10 bg-white/[0.03] text-white/60 hover:border-white/20 hover:bg-white/[0.06] hover:text-white/90"
+            }`}
+          >
+            Analytics
+          </button>
+          <button
+            onClick={() => setActiveTab("submissions")}
+            className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${
+              activeTab === "submissions"
+                ? "bg-gradient-to-b from-[#f7dd97] to-[#dca23a] text-[#3a0f33] shadow-[0_4px_16px_-4px_rgba(231,170,58,0.55)]"
+                : "border border-white/10 bg-white/[0.03] text-white/60 hover:border-white/20 hover:bg-white/[0.06] hover:text-white/90"
+            }`}
+          >
+            <span className="inline-flex items-center gap-1.5">
+              <Star className="h-3.5 w-3.5" />
+              Submissions
+            </span>
+          </button>
+        </div>
+
+        {activeTab === "submissions" && (
+          <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="border-b border-white/10 bg-white/[0.03] text-xs uppercase tracking-wider text-white/50">
+                  <tr>
+                    <th className="px-4 py-3 text-center font-semibold">Star</th>
+                    <th className="px-4 py-3 font-semibold">Name</th>
+                    <th className="px-4 py-3 font-semibold">Email</th>
+                    <th className="px-4 py-3 font-semibold">Contact</th>
+                    <th className="px-4 py-3 font-semibold">Instagram</th>
+                    <th className="px-4 py-3 font-semibold">Reel</th>
+                    <th className="px-4 py-3 font-semibold">Experience</th>
+                    <th className="px-4 py-3 font-semibold">Submitted At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {submissionsLoading && (
+                    <tr>
+                      <td colSpan={8} className="px-4 py-16 text-center text-white/50">
+                        <Loader2 className="mx-auto h-6 w-6 animate-spin text-[#edc168]" />
+                      </td>
+                    </tr>
+                  )}
+                  {!submissionsLoading && submissions.length === 0 && (
+                    <tr>
+                      <td colSpan={8} className="px-4 py-16 text-center">
+                        <div className="mx-auto flex max-w-sm flex-col items-center gap-2 text-white/50">
+                          <Send className="h-8 w-8 text-white/20" />
+                          <p className="font-semibold">No submissions yet</p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                  {!submissionsLoading &&
+                    submissions.map((s) => (
+                      <tr
+                        key={s._id}
+                        className={`border-b border-white/5 transition-colors last:border-b-0 hover:bg-white/[0.03] ${
+                          s.isStarred ? "bg-[#edc168]/[0.04]" : ""
+                        }`}
+                      >
+                        <td className="px-4 py-3 text-center">
+                          <button
+                            onClick={() => toggleStar(s._id)}
+                            disabled={starringIds.has(s._id)}
+                            className="group/star inline-flex items-center justify-center rounded-lg p-1.5 transition-all hover:bg-[#edc168]/10 disabled:opacity-50"
+                          >
+                            <Star
+                              className={`h-5 w-5 transition-all ${
+                                s.isStarred
+                                  ? "fill-[#edc168] text-[#edc168]"
+                                  : "text-white/30 group-hover/star:text-[#edc168]/60"
+                              }`}
+                            />
+                          </button>
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="font-semibold text-white/90">
+                            {s.fullName}
+                          </div>
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="text-xs text-white/60">{s.registeredEmail}</div>
+                        </td>
+                        <td className="px-4 py-3 text-xs text-white/60">
+                          {s.contactNumber}
+                        </td>
+                        <td className="px-4 py-3">
+                          <a
+                            href={s.instagramProfileLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs text-purple-300 hover:underline"
+                          >
+                            Profile <ExternalLink className="h-3 w-3" />
+                          </a>
+                        </td>
+                        <td className="px-4 py-3">
+                          <a
+                            href={s.reelLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs text-[#edc168] hover:underline"
+                          >
+                            Reel <ExternalLink className="h-3 w-3" />
+                          </a>
+                        </td>
+                        <td className="px-4 py-3 text-xs text-white/50 max-w-[200px] truncate">
+                          {s.experience || "—"}
+                        </td>
+                        <td className="px-4 py-3 text-xs text-white/60">
+                          {formatDate(s.createdAt)}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="border-t border-white/10 bg-white/[0.02] px-4 py-3 text-xs text-white/50">
+              Total submissions:{" "}
+              <span className="font-semibold text-white/80">
+                {submissions.length}
+              </span>
+              {" · "}Starred:{" "}
+              <span className="font-semibold text-[#edc168]">
+                {submissions.filter((s) => s.isStarred).length}
+              </span>
+            </div>
+          </div>
+        )}
+
         {/* Sources */}
-        {stats?.bySource && stats.bySource.length > 0 && (
+        {activeTab === "analytics" && stats?.bySource && stats.bySource.length > 0 && (
           <div className="mb-8 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 backdrop-blur-sm">
             <h2 className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#edc168]">
               <Filter className="h-3.5 w-3.5" />
@@ -341,6 +549,8 @@ export default function AdminDashboardPage() {
           </div>
         )}
 
+        {activeTab === "analytics" && (
+        <>
         {/* Toolbar */}
         <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap items-center gap-2">
@@ -536,6 +746,8 @@ export default function AdminDashboardPage() {
             <Pager pagination={pagination} onChange={setPage} disabled={loading} />
           </div>
         </div>
+        </>
+        )}
       </div>
     </div>
   );
